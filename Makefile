@@ -2,7 +2,8 @@ CC = cc
 NAME = solong
 FLAGS = -Wall -Wextra -Werror
 
-SRCS = main.c
+SRCS =	src/check_map.c \
+		main.c
 
 LIBS = libft libftprintf libgnl
 

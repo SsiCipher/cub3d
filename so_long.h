@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 09:26:28 by yanab             #+#    #+#             */
-/*   Updated: 2021/12/13 09:26:29 by yanab            ###   ########.fr       */
+/*   Updated: 2021/12/13 10:29:45 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,9 @@ typedef struct s_map
 	int		height;
 	char	**map_matrix;
 }	t_map;
+
+int	check_map_border(t_map map);
+int	check_map_characters(t_map map);
+int	check_map_shape(t_map map);
 
 #endif
