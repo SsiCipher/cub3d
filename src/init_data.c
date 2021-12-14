@@ -26,8 +26,8 @@ void	create_map_matrix(char const *map_filename, t_map *map, t_data *data)
 	while ((map_line = get_next_line(map_fd)) != NULL)
 	{
 		map->height += 1;
-		map->map_matrix = realloc(
-				map->map_matrix, sizeof(char *) * (map->height + 1));
+		map->map_matrix = ft_realloc(
+				map->map_matrix, sizeof(char *) * map->height, sizeof(char *) * (map->height + 1));
 		if (!map->map_matrix)
 			print_err("Error: There isn't enough memory to allocate\n");
 		if (map->width != -1 && map->width != ft_strlen(map_line))
