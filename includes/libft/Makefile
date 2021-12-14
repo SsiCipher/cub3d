@@ -37,20 +37,7 @@ SRCS =	ft_isalpha.c \
 		ft_putnbr_fd.c \
 		ft_every.c
 
-SRCSB =	ft_lstnew.c			\
-		ft_lstadd_front.c	\
-		ft_lstsize.c		\
-		ft_lstlast.c		\
-		ft_lstadd_back.c	\
-		ft_lstdelone.c		\
-		ft_lstclear.c		\
-		ft_lstiter.c		\
-		ft_lstmap.c		\
-		$(SRCS)
-
 OBJS = $(SRCS:.c=.o)
-
-OBJSB = $(SRCSB:.c=.o)
 
 all: $(NAME)
 
@@ -61,11 +48,9 @@ $(NAME): $(OBJS)
 	@ar rcs $(NAME) $@
 
 clean:
-	@rm -rf $(OBJSB)
+	@rm -rf $(OBJS)
 
 fclean: clean
 	@rm -rf $(NAME)
 
 re: fclean all
-
-bonus: $(OBJSB)

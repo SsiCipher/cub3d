@@ -3,51 +3,31 @@ NAME = solong
 FLAGS = -Wall -Wextra -Werror
 
 SRCS =	src/check_map.c \
+		src/init_data.c \
 		main.c
 
 LIBS = libft libftprintf libgnl
 
 INCLUDES = $(LIBS:%=includes/%.a)
 
+MLX = -lmlx -framework OpenGL -framework AppKit
+
 all: $(NAME)
-	@printf ""
 
 $(NAME): $(SRCS)
-	@$(CC) $(SRCS) $(INCLUDES) -lmlx -framework OpenGL -framework AppKit -o $(NAME)
-
-debug: $(SRCS)
-	@$(CC) $(SRCS) $(INCLUDES) -g -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+	$(CC) $(SRCS) $(INCLUDES) $(MLX) -o $(NAME)
 
 libs: $(LIBS)
 
 $(LIBS):
-	@make -C includes/$@
+	@make -C includes/$@ && mv includes/$@/$@.a includes
 	@make -C includes/$@ clean
-	@mv includes/$@/$@.a includes
 	@echo "Done Creating > $@"
 
-test: all
-	./solong
-	@echo "\n"
-	./solong maps/bad_border_map.ber
-	@echo "\n"
-	./solong maps/bad_shape_map.ber
-	@echo "\n"
-	./solong maps/empty_map.ber
-	@echo "\n"
-	./solong maps/invalid_chars_map.ber
-	@echo "\n"
-	./solong maps/missing_chars_map.ber
-	@echo "\n"
-	./solong maps/valid_map.ber
-	@echo "\n"
-	./solong maps/valid_map2.ber
-	@echo "\n"
-
 clean:
-	@rm -rf $(INCLUDES)
+	rm -rf $(INCLUDES)
 
-fclean:
+fclean: clean
 	rm -rf $(NAME)
 
 re: fclean all

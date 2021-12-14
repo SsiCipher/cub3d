@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 09:15:40 by yanab             #+#    #+#             */
-/*   Updated: 2021/12/13 10:22:33 by yanab            ###   ########.fr       */
+/*   Updated: 2021/12/14 17:49:22 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,62 +19,116 @@ void	print_err(char *err)
 	exit(0);
 }
 
-// Set initial values of the map
-void	init_map(char const *map_filename, int *map_fd, t_map *map)
+// Close window
+int	close_window()
 {
-	map->width = -1;
-	map->height = 0;
-	map->scale = 40;
-	map->map_matrix = NULL;
-	*map_fd = open(map_filename, O_RDONLY);
-	if (*map_fd < 0)
-		print_err("Error: Map file not found!\n");
+	exit(0);
+	return (0);
 }
 
-// Create game matrix
-void	create_map_matrix(int map_fd, t_map	*map)
+// Render the map matrix
+void	render_map(t_data *game_data)
 {
-	char	*map_line;
-
-	while ((map_line = get_next_line(map_fd)) != NULL)
+	for (int i = 0; game_data->map.map_matrix[i]; i++)
 	{
-		map->height += 1;
-		map->map_matrix = realloc(
-				map->map_matrix, sizeof(char *) * (map->height + 1));
-		if (!map->map_matrix)
-			print_err("Error: There isn't enough memory to allocate\n");
-		map->map_matrix[map->height - 1] = ft_strdup(map_line);
-		if (!map->map_matrix[map->height - 1])
-			print_err("Error: There isn't enough memory to allocate\n");
-		if (map->width == -1)
-			map->width = ft_strlen(map_line);
+		for (int j = 0; game_data->map.map_matrix[i][j]; j++)
+		{
+			if (game_data->map.map_matrix[i][j] == '1')
+				mlx_put_image_to_window(game_data->mlx, game_data->window.elememt, game_data->wall.img, j * game_data->map.scale, i * game_data->map.scale);
+			else if (game_data->map.map_matrix[i][j] == '0')
+				mlx_put_image_to_window(game_data->mlx, game_data->window.elememt, game_data->space.img, j * game_data->map.scale, i * game_data->map.scale);
+			else if (game_data->map.map_matrix[i][j] == 'P')
+			{
+				if (game_data->player.x == -1)
+					game_data->player.x = j;
+				if (game_data->player.y == -1)
+					game_data->player.y = i;
+				mlx_put_image_to_window(game_data->mlx, game_data->window.elememt, game_data->player.img, j * game_data->map.scale, i * game_data->map.scale);
+			}
+			else if (game_data->map.map_matrix[i][j] == 'E')
+				mlx_put_image_to_window(game_data->mlx, game_data->window.elememt, game_data->exit.img, j * game_data->map.scale, i * game_data->map.scale);
+			else if (game_data->map.map_matrix[i][j] == 'C')
+				mlx_put_image_to_window(game_data->mlx, game_data->window.elememt, game_data->collectible.img, j * game_data->map.scale, i * game_data->map.scale);
+		}
 	}
-	if (map->map_matrix != NULL)
-		map->map_matrix[map->height] = NULL;
 }
 
-// Check if the map matrix is valid
-void	check_map_matrix(t_map map)
+// Handle player move event
+void	move_player(t_data *data, int x, int y)
 {
-	if (
-		!check_map_shape(map)
-		|| !check_map_border(map)
-		|| !check_map_characters(map)
-	)
-		print_err("Error: The provided map is not a valid map.\n");
+	if (data->map.map_matrix[data->player.y + y][data->player.x + x] == 'C')
+	{
+		data->score -= 1;
+		data->map.map_matrix[data->player.y][data->player.x] = '0';
+		data->player.x += x;
+		data->player.y += y;
+		data->map.map_matrix[data->player.y][data->player.x] = 'P';
+	}
+	else if (data->map.map_matrix[data->player.y + y][data->player.x + x] == 'E' && data->score != 0)
+		return ;
+	else if (data->map.map_matrix[data->player.y + y][data->player.x + x] == 'E' && data->score == 0)
+	{
+		mlx_clear_window(data->mlx, data->window.elememt);
+		mlx_string_put(data->mlx, data->window.elememt, data->window.width / 4, data->window.height / 2, 255, "Congrats, You've just won");
+		return ;
+	}
+	else
+	{
+		data->map.map_matrix[data->player.y][data->player.x] = data->map.map_matrix[data->player.y + y][data->player.x + x];
+		data->player.x += x;
+		data->player.y += y;
+		data->map.map_matrix[data->player.y][data->player.x] = 'P';
+	}
+	mlx_clear_window(data->mlx, data->window.elememt);
+	render_map(data);
+	printf("Move Player Right to (%d, %d)\n", data->player.x, data->player.y);
+}
+
+// key event handler
+int	handle_key_event(int keycode, t_data *data)
+{
+	// printf("Keycode: %d\n", keycode);
+	if (keycode == 53) // ESC
+		close_window();
+	else if (keycode == 13 && data->map.map_matrix[data->player.y - 1][data->player.x] != '1') // Up
+	{
+		move_player(data, 0, -1);
+	}
+	else if (keycode == 2 && data->map.map_matrix[data->player.y][data->player.x + 1] != '1') // Right
+	{
+		move_player(data, 1, 0);
+	}
+	else if (keycode == 1 && data->map.map_matrix[data->player.y + 1][data->player.x] != '1') // Down
+	{
+		move_player(data, 0, 1);
+	}
+	else if (keycode == 0 && data->map.map_matrix[data->player.y][data->player.x - 1] != '1') // Left
+	{
+		move_player(data, -1, 0);
+	}
+
+	return (0);
 }
 
 // Program main function
 int	main(int argc, char const *argv[])
 {
 	int		map_fd;
-	t_map	game_map;
+	t_data	game_data;
 
 	if (argc != 2)
 		print_err("Usage: ./solong <map_file>\n");
-	init_map(argv[1], &map_fd, &game_map);
-	create_map_matrix(map_fd, &game_map);
-	check_map_matrix(game_map);
+	
+	init_data(argv[1], &game_data);
 
+	printf("Score: %d\n", game_data.score);
+
+	render_map(&game_data);
+
+	printf("Player is in [%d, %d]\n", game_data.player.x, game_data.player.y);
+
+	mlx_key_hook(game_data.window.elememt, handle_key_event, &game_data);
+	mlx_hook(game_data.window.elememt, 17, 0, close_window, NULL);
+	mlx_loop(game_data.mlx);
 	return (0);
 }

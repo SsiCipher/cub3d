@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 10:14:30 by yanab             #+#    #+#             */
-/*   Updated: 2021/12/13 10:21:43 by yanab            ###   ########.fr       */
+/*   Updated: 2021/12/14 15:06:19 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,26 +49,30 @@ int	check_map_border(t_map map)
 // Checks if map has at least an exit, a starting point and a collectible
 int	check_map_characters(t_map map)
 {
-	int	count[3];
+	int		i;
+	int		j;
+	int		count[3];
+	char	**matrix_dup;
 
 	count[0] = 0;
 	count[1] = 0;
 	count[2] = 0;
-	while (*(map.map_matrix))
+	i = -1;
+	matrix_dup = map.map_matrix;
+	while (matrix_dup[++i])
 	{
-		while (*(*(map.map_matrix)) != '\0')
+		j = -1;
+		while (matrix_dup[i][++j] != '\0')
 		{
-			if (*(*(map.map_matrix)) == 'P')
+			if (matrix_dup[i][j] == 'P')
 				count[0]++;
-			else if (*(*(map.map_matrix)) == 'C')
+			else if (matrix_dup[i][j] == 'C')
 				count[1]++;
-			else if (*(*(map.map_matrix)) == 'E')
+			else if (matrix_dup[i][j] == 'E')
 				count[2]++;
-			else if (*(*(map.map_matrix)) != '0' && *(*(map.map_matrix)) != '1')
+			else if (matrix_dup[i][j] != '0' && matrix_dup[i][j] != '1')
 				return (0);
-			*(map.map_matrix) += 1;
 		}
-		(map.map_matrix)++;
 	}
 	return (count[0] > 0 && count[0] > 0 && count[0] > 0);
 }
