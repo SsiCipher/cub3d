@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 09:26:28 by yanab             #+#    #+#             */
-/*   Updated: 2021/12/14 17:47:59 by yanab            ###   ########.fr       */
+/*   Updated: 2021/12/14 22:08:30 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@
 # include "includes/libft/libft.h"
 # include "includes/libftprintf/ft_printf.h"
 # include "includes/libgnl/get_next_line.h"
+
+# ifndef FRAMES_DURATION
+#  define FRAMES_DURATION 30
+# endif
 
 typedef struct s_map
 {
@@ -40,9 +44,10 @@ typedef struct s_img
 
 typedef struct s_window
 {
-	void	*elememt;
+	void	*element;
 	int		width;
 	int		height;
+	int		padding;
 }	t_window;
 
 typedef struct s_data
@@ -50,6 +55,8 @@ typedef struct s_data
 	void		*mlx;
 	t_window	window;
 	int			score;
+	int			player_moves;
+	int			gameover;
 	t_map		map;
 	t_img		wall;
 	t_img		space;
