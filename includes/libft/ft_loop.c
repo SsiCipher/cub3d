@@ -1,33 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_realloc.c                                       :+:      :+:    :+:   */
+/*   ft_loop.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/15 15:18:35 by yanab             #+#    #+#             */
-/*   Updated: 2021/12/15 15:18:37 by yanab            ###   ########.fr       */
+/*   Created: 2021/12/15 15:24:33 by yanab             #+#    #+#             */
+/*   Updated: 2021/12/15 16:01:01 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
+void	ft_loop(int from, int to, void (*f)())
 {
-	void	*new_buff;
+	int	i;
 
-	new_buff = malloc(new_size);
-	if (!new_buff)
-		return (NULL);
-	if (new_size == 0 && ptr != NULL)
+	i = from;
+	while (i < to)
 	{
-		free(ptr);
-		return (NULL);
+		f();
+		i++;
 	}
-	if (ptr != NULL)
-	{
-		ft_memcpy(new_buff, ptr, old_size);
-		free(ptr);
-	}
-	return (new_buff);
 }

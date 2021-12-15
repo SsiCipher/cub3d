@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/14 14:13:23 by yanab             #+#    #+#             */
-/*   Updated: 2021/12/13 09:26:12 by yanab            ###   ########.fr       */
+/*   Updated: 2021/12/15 16:40:01 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,20 +82,12 @@ char	**ft_split(char const *s, char c)
 	int		parts_count;
 	char	**split_str;
 
-	if (s == NULL)
-	{
-		split_str = (char **)malloc(sizeof(char *));
-		split_str[0] = NULL;
-		return (split_str);
-	}
+	if (!s)
+		return (NULL);
 	parts_count = ft_count_parts(s, c);
 	split_str = (char **)malloc(sizeof(char *) * (parts_count + 1));
 	if (!split_str)
-	{
-		split_str = (char **)malloc(sizeof(char *));
-		split_str[0] = NULL;
-		return (split_str);
-	}
+		return (NULL);
 	i = -1;
 	while (++i < parts_count)
 	{

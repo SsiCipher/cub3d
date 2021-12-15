@@ -3,6 +3,8 @@ NAME = solong
 FLAGS = -Wall -Wextra -Werror
 
 SRCS =	src/check_map.c \
+		src/game.c \
+		src/wrappers.c \
 		src/init_data.c \
 		main.c
 
@@ -20,15 +22,18 @@ $(NAME): $(SRCS)
 libs: $(LIBS)
 
 $(LIBS):
-	@make -C includes/$@ && mv includes/$@/$@.a includes
-	@make -C includes/$@ clean
+	@make -C includes/$@
+	@mv includes/$@/$@.a includes
 	@echo "Done Creating > $@"
 
 clean:
-	rm -rf $(INCLUDES)
+	make -C includes/libft clean
+	make -C includes/libftprintf clean
+	make -C includes/libgnl clean
 
 fclean: clean
 	rm -rf $(NAME)
+	rm -rf $(INCLUDES)
 
 re: fclean all
 

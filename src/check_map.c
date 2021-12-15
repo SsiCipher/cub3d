@@ -6,11 +6,19 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 10:14:30 by yanab             #+#    #+#             */
-/*   Updated: 2021/12/14 15:06:19 by yanab            ###   ########.fr       */
+/*   Updated: 2021/12/15 15:07:31 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long.h"
+
+// Checks if map has rectangular shape
+int	check_map_shape(t_map map)
+{
+	if (map.width == -1 || map.height == -1)
+		return (0);
+	return (map.width >= map.height);
+}
 
 // check if character is '1'
 int	is_wall(char chr)
@@ -52,35 +60,36 @@ int	check_map_characters(t_map map)
 	int		i;
 	int		j;
 	int		count[3];
-	char	**matrix_dup;
 
 	count[0] = 0;
 	count[1] = 0;
 	count[2] = 0;
 	i = -1;
-	matrix_dup = map.map_matrix;
-	while (matrix_dup[++i])
+	while (map.map_matrix[++i])
 	{
 		j = -1;
-		while (matrix_dup[i][++j] != '\0')
+		while (map.map_matrix[i][++j] != '\0')
 		{
-			if (matrix_dup[i][j] == 'P')
+			if (map.map_matrix[i][j] == 'P')
 				count[0]++;
-			else if (matrix_dup[i][j] == 'C')
+			else if (map.map_matrix[i][j] == 'C')
 				count[1]++;
-			else if (matrix_dup[i][j] == 'E')
+			else if (map.map_matrix[i][j] == 'E')
 				count[2]++;
-			else if (matrix_dup[i][j] != '0' && matrix_dup[i][j] != '1')
+			else if (map.map_matrix[i][j] != '0' && map.map_matrix[i][j] != '1')
 				return (0);
 		}
 	}
 	return (count[0] > 0 && count[0] > 0 && count[0] > 0);
 }
 
-// Checks if map has rectangular shape
-int	check_map_shape(t_map map)
+// Check if the map matrix is valid
+void	check_map_matrix(t_map map)
 {
-	if (map.width == -1 || map.height == -1)
-		return (0);
-	return (map.width >= map.height);
+	if (
+		!check_map_shape(map)
+		|| !check_map_border(map)
+		|| !check_map_characters(map)
+	)
+		print_err("Error: The provided map is not a valid map.\n");
 }

@@ -36,7 +36,8 @@ SRCS =	ft_isalpha.c \
 		ft_putendl_fd.c \
 		ft_putnbr_fd.c \
 		ft_every.c \
-		ft_realloc.c
+		ft_realloc.c \
+		ft_countchr.c
 
 OBJS = $(SRCS:.c=.o)
 
