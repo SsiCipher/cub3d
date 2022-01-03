@@ -75,5 +75,6 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 int		ft_every(char *arr, int (*f)(char));
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 int		ft_countchr(char *str, char c);
+char	*ft_strstr(const char *haystack, const char *needle);
 
 #endif

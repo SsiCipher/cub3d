@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 09:26:28 by yanab             #+#    #+#             */
-/*   Updated: 2021/12/15 16:01:14 by yanab            ###   ########.fr       */
+/*   Updated: 2021/12/15 23:18:17 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,6 @@ void	w_put_img(t_data data, t_img *image, int x, int y);
 void	w_put_str(t_data data, char *str, int x, int y);
 
 // main.c
-void	print_err(char *err);
+void	print_err(char *error_msg);
 
 #endif
