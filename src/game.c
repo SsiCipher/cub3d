@@ -74,22 +74,22 @@ void	move_player(t_data *data, int x, int y)
 // key event handler
 int	handle_key_event(int keycode, t_data *data)
 {
-	if (keycode == 53)
+	if (keycode == K_ESC)
 		exit(0);
 	else if (data->gameover == 0
-		&& (keycode == 13 || keycode == 126)
+		&& (keycode == K_Z || keycode == K_AR_U)
 		&& data->map.map_matrix[data->player.y - 1][data->player.x] != '1')
 		move_player(data, 0, -1);
 	else if (data->gameover == 0
-		&& (keycode == 1 || keycode == 125)
+		&& (keycode == K_S || keycode == K_AR_D)
 		&& data->map.map_matrix[data->player.y + 1][data->player.x] != '1')
 		move_player(data, 0, 1);
 	else if (data->gameover == 0
-		&& (keycode == 0 || keycode == 123)
+		&& (keycode == K_Q || keycode == K_AR_L)
 		&& data->map.map_matrix[data->player.y][data->player.x - 1] != '1')
 		move_player(data, -1, 0);
 	else if (data->gameover == 0
-		&& (keycode == 2 || keycode == 124)
+		&& (keycode == K_D || keycode == K_AR_R)
 		&& data->map.map_matrix[data->player.y][data->player.x + 1] != '1')
 		move_player(data, 1, 0);
 	return (0);

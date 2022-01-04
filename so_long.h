@@ -21,6 +21,12 @@
 # include "includes/libftprintf/ft_printf.h"
 # include "includes/libgnl/get_next_line.h"
 
+# ifdef __APPLE__
+#  include "keycodes_macos.h"
+# else
+#  include "keycodes_linux.h"
+# endif
+
 # ifndef FRAMES_DURATION
 #  define FRAMES_DURATION 30
 # endif

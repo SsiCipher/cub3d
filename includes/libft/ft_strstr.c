@@ -29,10 +29,8 @@ static int	is_full_word(const char *haystack, const char *needle)
 char	*ft_strstr(const char *haystack, const char *needle)
 {
 	size_t	i;
-	int		needle_len;
 
 	i = 0;
-	needle_len = ft_strlen(needle);
 	if (*needle == '\0')
 		return ((char *)haystack);
 	while (haystack[i])

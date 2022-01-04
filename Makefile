@@ -12,12 +12,13 @@ LIBS		=	libft libftprintf libgnl
 
 INCLUDES	=	$(LIBS:%=includes/%.a)
 
-MLX			=	-lmlx -framework OpenGL -framework AppKit
+MLX_macos	=	-lmlx -framework OpenGL -framework AppKit
+MLX_linux	=	-lmlx -lXext -lX11
 
 all: $(LIBS) $(NAME)
 
 $(NAME): $(SRCS)
-	$(CC) $(SRCS) $(INCLUDES) $(MLX) -o $(NAME)
+	$(CC) $(SRCS) $(INCLUDES) $(MLX_linux) -o $(NAME)
 
 libs: $(LIBS)
 
