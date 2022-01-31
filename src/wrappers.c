@@ -6,11 +6,11 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 15:53:26 by yanab             #+#    #+#             */
-/*   Updated: 2021/12/15 15:54:10 by yanab            ###   ########.fr       */
+/*   Updated: 2022/01/31 11:26:09 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "so_long.h"
 
 // Put image to window in (x, y)
 void	w_put_img(t_data data, t_img *image, int x, int y)

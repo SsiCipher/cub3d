@@ -6,11 +6,11 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 15:19:23 by yanab             #+#    #+#             */
-/*   Updated: 2021/12/16 22:27:10 by yanab            ###   ########.fr       */
+/*   Updated: 2022/01/31 11:27:11 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "so_long.h"
 
 // Render the map matrix
 void	render_map(t_data *game_data)
@@ -77,7 +77,7 @@ int	handle_key_event(int keycode, t_data *data)
 	if (keycode == K_ESC)
 		exit(0);
 	else if (data->gameover == 0
-		&& (keycode == K_Z || keycode == K_AR_U)
+		&& (keycode == K_W || keycode == K_AR_U)
 		&& data->map.map_matrix[data->player.y - 1][data->player.x] != '1')
 		move_player(data, 0, -1);
 	else if (data->gameover == 0
@@ -85,7 +85,7 @@ int	handle_key_event(int keycode, t_data *data)
 		&& data->map.map_matrix[data->player.y + 1][data->player.x] != '1')
 		move_player(data, 0, 1);
 	else if (data->gameover == 0
-		&& (keycode == K_Q || keycode == K_AR_L)
+		&& (keycode == K_A || keycode == K_AR_L)
 		&& data->map.map_matrix[data->player.y][data->player.x - 1] != '1')
 		move_player(data, -1, 0);
 	else if (data->gameover == 0

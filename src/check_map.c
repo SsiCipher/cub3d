@@ -6,11 +6,11 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 10:14:30 by yanab             #+#    #+#             */
-/*   Updated: 2021/12/15 23:25:24 by yanab            ###   ########.fr       */
+/*   Updated: 2022/01/31 11:21:04 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "so_long.h"
 
 // Checks if map has rectangular shape
 int	check_map_shape(t_map map)

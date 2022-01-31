@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   key_macos.h                                        :+:      :+:    :+:   */
+/*   keycodes_macos.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oouklich <oouklich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/19 17:40:13 by oouklich          #+#    #+#             */
-/*   Updated: 2019/12/28 22:20:38 by oouklich         ###   ########.fr       */
+/*   Updated: 2022/01/31 11:24:49 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef KEY_MACOS_H
-# define KEY_MACOS_H
+#ifndef KEYCODES_MACOS_H
+# define KEYCODES_MACOS_H
 
 /*
 ** Keyboard LETTERS

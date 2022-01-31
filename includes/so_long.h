@@ -6,20 +6,20 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 09:26:28 by yanab             #+#    #+#             */
-/*   Updated: 2021/12/15 23:18:17 by yanab            ###   ########.fr       */
+/*   Updated: 2022/01/31 11:35:47 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
+# include <stdio.h> // TEMPORARY
 # include <unistd.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <mlx.h>
-# include "includes/libft/libft.h"
-# include "includes/libftprintf/ft_printf.h"
-# include "includes/libgnl/get_next_line.h"
+# include "libft/libft.h"
+# include "libftprintf/ft_printf.h"
+# include "libgnl/get_next_line.h"
 
 # ifdef __APPLE__
 #  include "keycodes_macos.h"
@@ -79,9 +79,9 @@ int		check_map_characters(t_map map);
 void	check_map_matrix(t_map map);
 
 // init_data.c
-void	create_map_matrix(char const *map_filename, t_map *map, t_data *data);
-void	init_map(t_map *map, int scale);
 void	init_assets(t_data *data);
+void	init_map(t_map *map, int scale);
+void	init_matrix(char const *map_filename, t_map *map, t_data *data);
 void	init_window(t_data *data);
 void	init_data(const char *map_filename, t_data *data);
 
@@ -97,6 +97,6 @@ void	w_put_img(t_data data, t_img *image, int x, int y);
 void	w_put_str(t_data data, char *str, int x, int y);
 
 // main.c
-void	print_err(char *error_msg);
+void	print_err(char const *error_msg);
 
 #endif

@@ -6,14 +6,14 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 09:15:40 by yanab             #+#    #+#             */
-/*   Updated: 2021/12/17 00:04:45 by yanab            ###   ########.fr       */
+/*   Updated: 2022/01/31 11:32:04 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
 // Print error and exit
-void	print_err(char *error_msg)
+void	print_err(char const *error_msg)
 {
 	while (*error_msg)
 		write(1, error_msg++, 1);
@@ -28,7 +28,7 @@ int	close_window(void)
 }
 
 // Program main function
-int	main(int argc, char const *argv[])
+int	main(int argc, char const **argv)
 {
 	int		map_fd;
 	t_data	game_data;
