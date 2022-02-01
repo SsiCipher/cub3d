@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 15:19:23 by yanab             #+#    #+#             */
-/*   Updated: 2022/01/31 11:27:11 by yanab            ###   ########.fr       */
+/*   Updated: 2022/02/01 19:10:04 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,13 @@ void	render_map(t_data *game_data)
 	int		i;
 	int		j;
 	char	*moves_str;
+	char	*moves_count_str;
 
-	moves_str = ft_strjoin("Moves: ", ft_itoa(game_data->player_moves));
+	moves_count_str = ft_itoa(game_data->player_moves);
+	moves_str = ft_strjoin("Moves: ", moves_count_str);
 	w_put_str(*game_data, moves_str, 20, 10);
+	free(moves_str);
+	free(moves_count_str);
 	i = -1;
 	while (game_data->map.map_matrix[++i])
 	{

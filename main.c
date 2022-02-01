@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 09:15:40 by yanab             #+#    #+#             */
-/*   Updated: 2022/01/31 11:32:04 by yanab            ###   ########.fr       */
+/*   Updated: 2022/02/01 19:09:21 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	main(int argc, char const **argv)
 		print_err("Error: Your map must be of type .ber\n");
 	init_data(argv[1], &game_data);
 	render_map(&game_data);
-	mlx_key_hook(game_data.window.element, handle_key_event, &game_data);
+	mlx_hook(game_data.window.element, 2, 1L << 0, handle_key_event, &game_data);
 	mlx_hook(game_data.window.element, 17, 0, close_window, NULL);
 	// mlx_loop_hook(game_data.mlx, animate_game, &game_data);
 	mlx_loop(game_data.mlx);

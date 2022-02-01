@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 21:36:29 by yanab             #+#    #+#             */
-/*   Updated: 2022/01/31 11:34:31 by yanab            ###   ########.fr       */
+/*   Updated: 2022/02/01 19:11:41 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 // Set initial assets
 void	init_assets(t_data *data)
 {
-	data->wall.img = mlx_xpm_file_to_image(data->mlx, "./assets/wall.xpm",
+	data->wall.img = mlx_xpm_file_to_image(data->mlx, "./assets/center_wall.xpm",
 			&data->wall.width, &data->wall.height);
 	data->space.img = mlx_xpm_file_to_image(data->mlx, "./assets/space.xpm",
 			&data->space.width, &data->space.height);
 	data->player.x = -1;
 	data->player.y = -1;
-	data->player.img = mlx_xpm_file_to_image(data->mlx, "./assets/player.xpm",
+	data->player.img = mlx_xpm_file_to_image(data->mlx, "./assets/player_gray_right.xpm",
 			&data->player.width, &data->player.height);
 	data->collectible.img = mlx_xpm_file_to_image(data->mlx,
-			"./assets/collectible.xpm",
+			"./assets/gold_bg.xpm",
 			&data->collectible.width, &data->collectible.height);
 	data->exit.img = mlx_xpm_file_to_image(data->mlx, "./assets/exit.xpm",
 			&data->exit.width, &data->exit.height);
@@ -64,6 +64,8 @@ void	init_matrix(char const *map_filename, t_map *map, t_data *data)
 		data->score += ft_countchr(map_line, 'C');
 		if (map->width == -1)
 			map->width = ft_strlen(map_line);
+		free(map_line);
+		map_line = NULL;
 	}
 	if (map->map_matrix != NULL)
 		map->map_matrix[map->height] = NULL;
