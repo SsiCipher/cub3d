@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 21:36:29 by yanab             #+#    #+#             */
-/*   Updated: 2022/02/01 19:11:41 by yanab            ###   ########.fr       */
+/*   Updated: 2022/02/02 20:40:41 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,18 @@
 // Set initial assets
 void	init_assets(t_data *data)
 {
-	data->wall.img = mlx_xpm_file_to_image(data->mlx, "./assets/center_wall.xpm",
-			&data->wall.width, &data->wall.height);
-	data->space.img = mlx_xpm_file_to_image(data->mlx, "./assets/space.xpm",
-			&data->space.width, &data->space.height);
+	data->wall.img = xpm_to_img_i(*data, "wall.xpm", &(data->wall));
+	data->space.img = xpm_to_img_i(*data, "space.xpm", &(data->space));
+	data->gold.img = xpm_to_img_i(*data, "gold.xpm", &(data->gold));
+	data->exit.img = xpm_to_img_i(*data, "exit.xpm", &(data->exit));
+	data->enemy.img = xpm_to_img_i(*data, "enemy.xpm", &(data->enemy));
 	data->player.x = -1;
 	data->player.y = -1;
-	data->player.img = mlx_xpm_file_to_image(data->mlx, "./assets/player_gray_right.xpm",
-			&data->player.width, &data->player.height);
-	data->collectible.img = mlx_xpm_file_to_image(data->mlx,
-			"./assets/gold_bg.xpm",
-			&data->collectible.width, &data->collectible.height);
-	data->exit.img = mlx_xpm_file_to_image(data->mlx, "./assets/exit.xpm",
-			&data->exit.width, &data->exit.height);
+	data->player.set[P_U] = xpm_to_img_p(*data, "p_up.xpm", &(data->player));
+	data->player.set[P_D] = xpm_to_img_p(*data, "p_down.xpm", &(data->player));
+	data->player.set[P_L] = xpm_to_img_p(*data, "p_left.xpm", &(data->player));
+	data->player.set[P_R] = xpm_to_img_p(*data, "p_right.xpm", &(data->player));
+	data->player.img = data->player.set[P_D];
 }
 
 // Set initial values of the map
@@ -48,24 +47,24 @@ void	init_matrix(char const *map_filename, t_map *map, t_data *data)
 	map_fd = open(map_filename, O_RDONLY);
 	if (map_fd < 0)
 		print_err("Error: Map file not found!\n");
-	while ((map_line = get_next_line(map_fd)) != NULL)
+	map_line = get_next_line(map_fd);
+	while (map_line != NULL)
 	{
 		map->height += 1;
-		map->map_matrix = ft_realloc(
-				map->map_matrix, sizeof(char *) * map->height,
+		map->map_matrix = ft_realloc(map->map_matrix,
+				sizeof(char *) * map->height,
 				sizeof(char *) * (map->height + 1));
 		if (!map->map_matrix)
 			print_err("Error: There isn't enough memory to allocate\n");
 		if (map->width != -1 && map->width != ft_strlen(map_line))
 			print_err("Error: The provided map is not a valid map.\n");
-		map->map_matrix[map->height - 1] = ft_strdup(map_line);
+		map->map_matrix[map->height - 1] = map_line;
 		if (!map->map_matrix[map->height - 1])
 			print_err("Error: There isn't enough memory to allocate\n");
 		data->score += ft_countchr(map_line, 'C');
 		if (map->width == -1)
 			map->width = ft_strlen(map_line);
-		free(map_line);
-		map_line = NULL;
+		map_line = get_next_line(map_fd);
 	}
 	if (map->map_matrix != NULL)
 		map->map_matrix[map->height] = NULL;
@@ -92,6 +91,6 @@ void	init_data(const char *map_filename, t_data *data)
 	init_matrix(map_filename, &(data->map), data);
 	check_map_matrix(data->map);
 	data->gameover = 0;
-	data->player_moves = 0;
+	data->moves = 0;
 	init_window(data);
 }

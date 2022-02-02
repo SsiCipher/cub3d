@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 10:14:30 by yanab             #+#    #+#             */
-/*   Updated: 2022/02/01 16:14:52 by yanab            ###   ########.fr       */
+/*   Updated: 2022/02/02 16:14:21 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	check_map_border(t_map map)
 }
 
 // Checks if map has at least an exit, a starting point and a collectible
-int	check_map_characters(t_map map)
+int	check_map_chars(t_map map)
 {
 	int		i;
 	int		j;
@@ -68,7 +68,7 @@ int	check_map_characters(t_map map)
 	while (map.map_matrix[++i])
 	{
 		j = -1;
-		while (map.map_matrix[i][++j] != '\0')
+		while (map.map_matrix[i][++j])
 		{
 			if (map.map_matrix[i][j] == 'P')
 				count[0]++;
@@ -76,11 +76,12 @@ int	check_map_characters(t_map map)
 				count[1]++;
 			else if (map.map_matrix[i][j] == 'E')
 				count[2]++;
-			else if (map.map_matrix[i][j] != '0' && map.map_matrix[i][j] != '1')
+			else if (map.map_matrix[i][j] != '0' && map.map_matrix[i][j] != '1'
+				&& map.map_matrix[i][j] != 'D')
 				return (0);
 		}
 	}
-	return (count[0] > 0 && count[0] > 0 && count[0] > 0);
+	return (count[0] > 0 && count[1] > 0 && count[2] > 0);
 }
 
 // Check if the map matrix is valid
@@ -89,7 +90,7 @@ void	check_map_matrix(t_map map)
 	if (
 		!check_map_shape(map)
 		|| !check_map_border(map)
-		|| !check_map_characters(map)
+		|| !check_map_chars(map)
 	)
 		print_err("Error: The provided map is not a valid map.\n");
 }

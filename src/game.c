@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 15:19:23 by yanab             #+#    #+#             */
-/*   Updated: 2022/02/01 19:10:04 by yanab            ###   ########.fr       */
+/*   Updated: 2022/02/02 17:23:33 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	render_map(t_data *game_data)
 {
 	int		i;
 	int		j;
-	char	*moves_str;
 	char	*moves_count_str;
+	char	*moves_str;
 
-	moves_count_str = ft_itoa(game_data->player_moves);
+	moves_count_str = ft_itoa(game_data->moves);
 	moves_str = ft_strjoin("Moves: ", moves_count_str);
 	w_put_str(*game_data, moves_str, 20, 10);
 	free(moves_str);
@@ -36,11 +36,13 @@ void	render_map(t_data *game_data)
 			else if (game_data->map.map_matrix[i][j] == '0')
 				w_put_img(*game_data, &(game_data->space), j, i);
 			else if (game_data->map.map_matrix[i][j] == 'P')
-				w_put_img(*game_data, &(game_data->player), j, i);
+				w_put_player(*game_data, &(game_data->player), j, i);
 			else if (game_data->map.map_matrix[i][j] == 'E')
 				w_put_img(*game_data, &(game_data->exit), j, i);
 			else if (game_data->map.map_matrix[i][j] == 'C')
-				w_put_img(*game_data, &(game_data->collectible), j, i);
+				w_put_img(*game_data, &(game_data->gold), j, i);
+			else if (game_data->map.map_matrix[i][j] == 'D')
+				w_put_img(*game_data, &(game_data->enemy), j, i);
 		}
 	}
 }
@@ -60,11 +62,16 @@ void	move_player(t_data *data, int x, int y)
 	}
 	else
 	{
-		data->player_moves += 1;
+		data->moves += 1;
 		if (next_block == 'C')
 		{
 			data->score -= 1;
 			next_block = '0';
+		}
+		else if (next_block == 'D')
+		{
+			data->gameover = 1;
+			w_put_str(*data, "You just lost watch out", 50, 50);
 		}
 		data->map.map_matrix[data->player.y][data->player.x] = next_block;
 		data->player.x += x;
@@ -76,49 +83,37 @@ void	move_player(t_data *data, int x, int y)
 }
 
 // key event handler
-int	handle_key_event(int keycode, t_data *data)
+int	handle_keyevent(int keycode, t_data *data)
 {
 	if (keycode == K_ESC)
 		exit(0);
 	else if (data->gameover == 0
 		&& (keycode == K_W || keycode == K_AR_U)
 		&& data->map.map_matrix[data->player.y - 1][data->player.x] != '1')
+	{
+		data->player.img = data->player.set[P_U];
 		move_player(data, 0, -1);
+	}
 	else if (data->gameover == 0
 		&& (keycode == K_S || keycode == K_AR_D)
 		&& data->map.map_matrix[data->player.y + 1][data->player.x] != '1')
+	{
+		data->player.img = data->player.set[P_D];
 		move_player(data, 0, 1);
+	}
 	else if (data->gameover == 0
 		&& (keycode == K_A || keycode == K_AR_L)
 		&& data->map.map_matrix[data->player.y][data->player.x - 1] != '1')
+	{
+		data->player.img = data->player.set[P_L];
 		move_player(data, -1, 0);
+	}
 	else if (data->gameover == 0
 		&& (keycode == K_D || keycode == K_AR_R)
 		&& data->map.map_matrix[data->player.y][data->player.x + 1] != '1')
+	{
+		data->player.img = data->player.set[P_R];
 		move_player(data, 1, 0);
-	return (0);
-}
-
-// Player animation
-int	animate_game(t_data *data)
-{
-	static int	frame = 0;
-
-	frame++;
-	if (frame == FRAMES_DURATION)
-	{
-		data->player.img = mlx_xpm_file_to_image(data->mlx,
-				"./assets/player2.xpm",
-				&data->player.width, &data->player.height);
 	}
-	if (frame == FRAMES_DURATION * 2)
-	{
-		data->player.img = mlx_xpm_file_to_image(data->mlx,
-				"./assets/player.xpm",
-				&data->player.width, &data->player.height);
-		frame = 0;
-	}
-	if (data->gameover == 0)
-		w_put_img(*data, &(data->player), data->player.x, data->player.y);
 	return (0);
 }
