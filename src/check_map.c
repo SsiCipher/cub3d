@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 10:14:30 by yanab             #+#    #+#             */
-/*   Updated: 2022/02/02 16:14:21 by yanab            ###   ########.fr       */
+/*   Updated: 2022/02/04 00:43:19 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	is_wall(char chr)
 	return (chr == '1');
 }
 
-// Checks if map is surrounded by walls
+// Checks if map is surrounded by walls 
 int	check_map_border(t_map map)
 {
 	int		i;
@@ -47,6 +47,8 @@ int	check_map_border(t_map map)
 				&& *matrix_row[map.width - 1] != '1'
 			)
 		)
+			return (0);
+		if (map.width != ft_strlen(*matrix_row))
 			return (0);
 		matrix_row++;
 		i++;

@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 15:18:35 by yanab             #+#    #+#             */
-/*   Updated: 2021/12/15 15:18:37 by yanab            ###   ########.fr       */
+/*   Updated: 2022/02/04 00:33:53 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 {
 	void	*new_buff;
 
-	new_buff = malloc(new_size);
-	if (!new_buff)
-		return (NULL);
 	if (new_size == 0 && ptr != NULL)
 	{
 		free(ptr);
 		return (NULL);
 	}
+	new_buff = malloc(new_size);
+	if (!new_buff)
+		return (NULL);
 	if (ptr != NULL)
 	{
 		ft_memcpy(new_buff, ptr, old_size);

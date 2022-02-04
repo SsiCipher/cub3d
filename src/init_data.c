@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 21:36:29 by yanab             #+#    #+#             */
-/*   Updated: 2022/02/02 20:40:41 by yanab            ###   ########.fr       */
+/*   Updated: 2022/02/04 00:43:52 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ void	init_matrix(char const *map_filename, t_map *map, t_data *data)
 				sizeof(char *) * (map->height + 1));
 		if (!map->map_matrix)
 			print_err("Error: There isn't enough memory to allocate\n");
-		if (map->width != -1 && map->width != ft_strlen(map_line))
-			print_err("Error: The provided map is not a valid map.\n");
 		map->map_matrix[map->height - 1] = map_line;
 		if (!map->map_matrix[map->height - 1])
 			print_err("Error: There isn't enough memory to allocate\n");

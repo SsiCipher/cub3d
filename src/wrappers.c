@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 15:53:26 by yanab             #+#    #+#             */
-/*   Updated: 2022/02/02 20:36:01 by yanab            ###   ########.fr       */
+/*   Updated: 2022/02/04 00:37:49 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	w_put_str(t_data data, char *str, int x, int y)
 	mlx_string_put(data.mlx, data.window.element, x, y, 0x00FFFFFF, str);
 }
 
+// Read player image
 void	*xpm_to_img_p(t_data data, char const *filename, t_player *player)
 {
 	char	*path;
@@ -48,6 +49,7 @@ void	*xpm_to_img_p(t_data data, char const *filename, t_player *player)
 	return (img_p);
 }
 
+// Read normal image
 void	*xpm_to_img_i(t_data data, char const *filename, t_img *img)
 {
 	char	*path;
