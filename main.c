@@ -35,7 +35,7 @@ int	main(int argc, char const **argv)
 
 	if (argc != 2)
 		print_err("Usage: ./solong <map_file>\n");
-	if (ft_strstr(argv[1], ".ber") == NULL)
+	if (ft_strncmp(".ber", argv[1] + (ft_strlen(argv[1]) - 4), 4) != 0)
 		print_err("Error: Your map must be of type .ber\n");
 	init_data(argv[1], &game_data);
 	render_map(&game_data);
