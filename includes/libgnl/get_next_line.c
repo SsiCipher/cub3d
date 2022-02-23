@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 12:25:05 by yanab             #+#    #+#             */
-/*   Updated: 2021/12/13 09:25:14 by yanab            ###   ########.fr       */
+/*   Updated: 2022/02/23 22:53:16 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char	*extract_line(char *str)
 	line_length = 0;
 	while (str[line_length] && str[line_length] != '\n')
 		line_length++;
+	if (str[line_length] == '\n')
+		line_length += 1;
 	if (line_length == 0)
 		return (NULL);
 	line = (char *)malloc(sizeof(char) * (line_length + 1));

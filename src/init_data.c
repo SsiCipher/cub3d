@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 21:36:29 by yanab             #+#    #+#             */
-/*   Updated: 2022/02/23 04:55:22 by yanab            ###   ########.fr       */
+/*   Updated: 2022/02/23 05:17:40 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,13 @@ void	init_matrix(int map_fd, t_map *map, t_data *data)
 				sizeof(char *) * (map->height + 1));
 		if (!map->map_matrix)
 			print_err("Error: There isn't enough memory to allocate\n");
-		map->map_matrix[map->height - 1] = map_line;
+		map->map_matrix[map->height - 1] = ft_strtrim(map_line, "\n");
 		if (!map->map_matrix[map->height - 1])
 			print_err("Error: There isn't enough memory to allocate\n");
 		data->score += ft_countchr(map_line, 'C');
 		if (map->width == -1)
-			map->width = ft_strlen(map_line);
+			map->width = ft_strlen(map->map_matrix[map->height - 1]);
+		free(map_line);
 		map_line = get_next_line(map_fd);
 	}
 	if (map->map_matrix != NULL)
