@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 09:26:28 by yanab             #+#    #+#             */
-/*   Updated: 2022/02/02 20:26:12 by yanab            ###   ########.fr       */
+/*   Updated: 2022/02/16 01:16:16 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,14 @@ void	check_map_matrix(t_map map);
 // init_data.c
 void	init_assets(t_data *data);
 void	init_map(t_map *map, int scale);
-void	init_matrix(char const *map_filename, t_map *map, t_data *data);
+void	init_matrix(int map_fd, t_map *map, t_data *data);
 void	init_window(t_data *data);
 void	init_data(const char *map_filename, t_data *data);
 
 // game.c
+void	put_image(char map_char, t_data *game_data, int x, int y);
 void	render_map(t_data *game_data);
+void	decide_move(t_data *data, char next_block, int x, int y);
 void	move_player(t_data *data, int x, int y);
 int		handle_keyevent(int keycode, t_data *data);
 

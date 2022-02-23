@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 15:19:23 by yanab             #+#    #+#             */
-/*   Updated: 2022/02/04 01:04:27 by yanab            ###   ########.fr       */
+/*   Updated: 2022/02/16 00:58:42 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	decide_move(t_data *data, char next_block, int x, int y)
 	}
 }
 
-// Handle player move event
+// Handle player movement
 void	move_player(t_data *data, int x, int y)
 {
 	char	next_block;

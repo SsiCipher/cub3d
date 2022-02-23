@@ -1,5 +1,5 @@
 CC			=	cc
-NAME		=	solong
+NAME		=	so_long
 FLAGS		=	-Wall -Wextra -Werror
 
 SRCS		=	src/check_map.c \

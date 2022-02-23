@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 21:36:29 by yanab             #+#    #+#             */
-/*   Updated: 2022/02/04 00:43:52 by yanab            ###   ########.fr       */
+/*   Updated: 2022/02/23 04:55:22 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,10 @@ void	init_map(t_map *map, int scale)
 }
 
 // Create game matrix
-void	init_matrix(char const *map_filename, t_map *map, t_data *data)
+void	init_matrix(int map_fd, t_map *map, t_data *data)
 {
-	int		map_fd;
 	char	*map_line;
 
-	map_fd = open(map_filename, O_RDONLY);
-	if (map_fd < 0)
-		print_err("Error: Map file not found!\n");
 	map_line = get_next_line(map_fd);
 	while (map_line != NULL)
 	{
@@ -82,11 +78,16 @@ void	init_window(t_data *data)
 // Init game data
 void	init_data(const char *map_filename, t_data *data)
 {
+	int	map_fd;
+
+	map_fd = open(map_filename, O_RDONLY);
+	if (map_fd < 0)
+		print_err("Error: Map file not found!\n");
 	data->mlx = mlx_init();
 	init_assets(data);
 	init_map(&(data->map), data->wall.width);
 	data->score = 0;
-	init_matrix(map_filename, &(data->map), data);
+	init_matrix(map_fd, &(data->map), data);
 	check_map_matrix(data->map);
 	data->gameover = 0;
 	data->moves = 0;
