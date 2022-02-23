@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 09:15:40 by yanab             #+#    #+#             */
-/*   Updated: 2022/02/16 00:58:38 by yanab            ###   ########.fr       */
+/*   Updated: 2022/02/23 23:02:08 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ int	close_window(void)
 }
 
 // Program main function
+/**
+ * TODO: move enemy
+ * TODO: sprite animation
+ */
 int	main(int argc, char const **argv)
 {
 	int		map_fd;

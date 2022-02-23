@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 21:36:29 by yanab             #+#    #+#             */
-/*   Updated: 2022/02/23 05:17:40 by yanab            ###   ########.fr       */
+/*   Updated: 2022/02/23 22:59:56 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ void	init_map(t_map *map, int scale)
 }
 
 // Create game matrix
+/**
+ * TODO Check map for empty lines
+ */
 void	init_matrix(int map_fd, t_map *map, t_data *data)
 {
 	char	*map_line;

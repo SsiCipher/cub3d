@@ -52,6 +52,7 @@ Mkfile.old
 dkms.conf
 
 # Project related
-solong
+TODO
+so_long
 .DS_Store
 *vscode
