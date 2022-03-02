@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 21:36:29 by yanab             #+#    #+#             */
-/*   Updated: 2022/02/23 22:59:56 by yanab            ###   ########.fr       */
+/*   Updated: 2022/03/02 01:53:49 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	init_matrix(int map_fd, t_map *map, t_data *data)
 		free(map_line);
 		map_line = get_next_line(map_fd);
 	}
+	printf("line: %s\n", map_line);
 	if (map->map_matrix != NULL)
 		map->map_matrix[map->height] = NULL;
 }
