@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 09:26:28 by yanab             #+#    #+#             */
-/*   Updated: 2022/02/16 01:16:16 by yanab            ###   ########.fr       */
+/*   Updated: 2022/03/05 21:26:59 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 # define SO_LONG_H
 
 # include <stdio.h> // TEMPORARY
+# include <mlx.h>
 # include <unistd.h>
 # include <stdlib.h>
-# include <mlx.h>
 # include "libft/libft.h"
 # include "libftprintf/ft_printf.h"
 # include "libgnl/get_next_line.h"

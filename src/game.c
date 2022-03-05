@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 15:19:23 by yanab             #+#    #+#             */
-/*   Updated: 2022/02/16 00:58:42 by yanab            ###   ########.fr       */
+/*   Updated: 2022/03/05 20:56:55 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	decide_move(t_data *data, char next_block, int x, int y)
 	else if (next_block == 'D')
 	{
 		data->gameover = 1;
-		w_put_str(*data, "You just lost watch out", 50, 50);
+		w_put_str(*data, "You just lost watch out", 100, 50);
 	}
 	else
 	{

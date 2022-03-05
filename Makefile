@@ -28,13 +28,16 @@ $(LIBS):
 	@echo "Done Creating > $@"
 
 clean:
-	make -C includes/libft fclean
-	make -C includes/libftprintf fclean
-	make -C includes/libgnl fclean
+	make -C includes/libft clean
+	make -C includes/libftprintf clean
+	make -C includes/libgnl clean
 
 fclean: clean
 	rm -rf $(NAME)
 	rm -rf $(INCLUDES)
+	make -C includes/libft fclean
+	make -C includes/libftprintf fclean
+	make -C includes/libgnl fclean
 
 re: fclean all
 

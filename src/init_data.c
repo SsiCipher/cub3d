@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 21:36:29 by yanab             #+#    #+#             */
-/*   Updated: 2022/03/02 01:53:49 by yanab            ###   ########.fr       */
+/*   Updated: 2022/03/05 21:25:56 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,15 @@ void	init_map(t_map *map, int scale)
 }
 
 // Create game matrix
-/**
- * TODO Check map for empty lines
- */
 void	init_matrix(int map_fd, t_map *map, t_data *data)
 {
 	char	*map_line;
+	int		prev_has_nl;
 
 	map_line = get_next_line(map_fd);
 	while (map_line != NULL)
 	{
+		prev_has_nl = ft_strchr(map_line, '\n') != NULL;
 		map->height += 1;
 		map->map_matrix = ft_realloc(map->map_matrix,
 				sizeof(char *) * map->height,
@@ -63,8 +62,9 @@ void	init_matrix(int map_fd, t_map *map, t_data *data)
 			map->width = ft_strlen(map->map_matrix[map->height - 1]);
 		free(map_line);
 		map_line = get_next_line(map_fd);
+		if (!map_line && prev_has_nl)
+			print_err("Error: The provided map is not a valid map.\n");
 	}
-	printf("line: %s\n", map_line);
 	if (map->map_matrix != NULL)
 		map->map_matrix[map->height] = NULL;
 }
