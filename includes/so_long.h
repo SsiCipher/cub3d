@@ -6,19 +6,17 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 09:26:28 by yanab             #+#    #+#             */
-/*   Updated: 2022/03/09 02:12:28 by yanab            ###   ########.fr       */
+/*   Updated: 2022/03/09 02:51:19 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# include <stdio.h> // TEMPORARY
 # include <mlx.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include "libft/libft.h"
-# include "libftprintf/ft_printf.h"
 # include "libgnl/get_next_line.h"
 
 # ifdef __APPLE__

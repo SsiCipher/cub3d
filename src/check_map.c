@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 10:14:30 by yanab             #+#    #+#             */
-/*   Updated: 2022/03/09 02:12:49 by yanab            ###   ########.fr       */
+/*   Updated: 2022/03/09 02:52:39 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,5 @@ void	check_map_matrix(t_map map)
 		|| !check_map_border(map)
 		|| !check_map_chars(map)
 	)
-		print_err("Error: The provided map is not a valid map.\n");
+		print_err("Error:\nThe provided map is invalid.\n");
 }

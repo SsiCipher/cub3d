@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 21:36:29 by yanab             #+#    #+#             */
-/*   Updated: 2022/03/09 02:14:16 by yanab            ###   ########.fr       */
+/*   Updated: 2022/03/09 02:51:04 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,22 +47,21 @@ void	init_matrix(int map_fd, t_map *map, t_data *data)
 	while (map_line != NULL)
 	{
 		prev_has_nl = ft_strchr(map_line, '\n') != NULL;
-		map->height += 1;
 		map->map_matrix = ft_realloc(map->map_matrix,
-				sizeof(char *) * map->height,
+				sizeof(char *) * ++(map->height),
 				sizeof(char *) * (map->height + 1));
 		if (!map->map_matrix)
-			print_err("Error: There isn't enough memory to allocate\n");
+			print_err("Error:\nThere isn't enough memory to allocate\n");
 		map->map_matrix[map->height - 1] = ft_strtrim(map_line, "\n");
 		if (!map->map_matrix[map->height - 1])
-			print_err("Error: There isn't enough memory to allocate\n");
+			print_err("Error:\nThere isn't enough memory to allocate\n");
 		data->score += ft_countchr(map_line, 'C');
 		if (map->width == -1)
 			map->width = ft_strlen(map->map_matrix[map->height - 1]);
 		free(map_line);
 		map_line = get_next_line(map_fd);
 		if (!map_line && prev_has_nl)
-			print_err("Error: The provided map is not a valid map.\n");
+			print_err("Error:\nThe provided map is not a valid map.\n");
 	}
 	if (map->map_matrix != NULL)
 		map->map_matrix[map->height] = NULL;
@@ -86,7 +85,7 @@ void	init_data(const char *map_filename, t_data *data)
 
 	map_fd = open(map_filename, O_RDONLY);
 	if (map_fd < 0)
-		print_err("Error: Map file not found or can't be read!\n");
+		print_err("Error:\nMap file not found or can't be read!\n");
 	data->mlx = mlx_init();
 	init_assets(data);
 	init_map(&(data->map), data->wall.width);

@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 09:15:40 by yanab             #+#    #+#             */
-/*   Updated: 2022/03/09 02:11:44 by yanab            ###   ########.fr       */
+/*   Updated: 2022/03/09 02:51:50 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	print_err(char const *error_msg)
 {
 	while (*error_msg)
-		write(1, error_msg++, 1);
+		write(2, error_msg++, 1);
 	exit(0);
 }
 
@@ -34,9 +34,9 @@ int	main(int argc, char const **argv)
 	t_data	game_data;
 
 	if (argc != 2)
-		print_err("Usage: ./solong <map_file>\n");
+		print_err("Error:\nUsage: ./solong <map_file.ber>\n");
 	if (ft_strncmp(".ber", argv[1] + (ft_strlen(argv[1]) - 4), 4) != 0)
-		print_err("Error: Your map must be of type .ber\n");
+		print_err("Error:\nYour map must be of type .ber\n");
 	init_data(argv[1], &game_data);
 	render_map(&game_data);
 	mlx_hook(game_data.window.element, 2, 1L << 0, handle_keyevent, &game_data);

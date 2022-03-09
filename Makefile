@@ -8,9 +8,9 @@ SRCS		=	src/check_map.c \
 				src/init_data.c \
 				so_long.c
 
-LIBS		=	libft libftprintf libgnl
+LIBS		=	libft libgnl
 
-INCLUDES	=	$(LIBS:%=includes/%.a)
+INCLUDES	=	$(LIBS:%=includes/$*/%.a)
 
 MLX_macos	=	-lmlx -framework OpenGL -framework AppKit
 MLX_linux	=	-lmlx -lXext -lX11
@@ -28,14 +28,12 @@ $(LIBS):
 
 clean:
 	make -C includes/libft clean
-	make -C includes/libftprintf clean
 	make -C includes/libgnl clean
 
 fclean: clean
 	rm -rf $(NAME)
 	rm -rf $(INCLUDES)
 	make -C includes/libft fclean
-	make -C includes/libftprintf fclean
 	make -C includes/libgnl fclean
 
 re: fclean all
