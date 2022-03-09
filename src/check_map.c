@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 10:14:30 by yanab             #+#    #+#             */
-/*   Updated: 2022/03/05 20:57:02 by yanab            ###   ########.fr       */
+/*   Updated: 2022/03/09 02:12:49 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,7 @@ int	check_map_chars(t_map map)
 				count[1]++;
 			else if (map.map_matrix[i][j] == 'E')
 				count[2]++;
-			else if (map.map_matrix[i][j] != '0' && map.map_matrix[i][j] != '1'
-				&& map.map_matrix[i][j] != 'D')
+			else if (map.map_matrix[i][j] != '0' && map.map_matrix[i][j] != '1')
 				return (0);
 		}
 	}

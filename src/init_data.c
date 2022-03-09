@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 21:36:29 by yanab             #+#    #+#             */
-/*   Updated: 2022/03/05 21:25:56 by yanab            ###   ########.fr       */
+/*   Updated: 2022/03/09 02:14:16 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	init_assets(t_data *data)
 	data->space.img = xpm_to_img_i(*data, "space.xpm", &(data->space));
 	data->gold.img = xpm_to_img_i(*data, "gold.xpm", &(data->gold));
 	data->exit.img = xpm_to_img_i(*data, "exit.xpm", &(data->exit));
-	data->enemy.img = xpm_to_img_i(*data, "enemy.xpm", &(data->enemy));
 	data->player.x = -1;
 	data->player.y = -1;
 	data->player.set[P_U] = xpm_to_img_p(*data, "p_up.xpm", &(data->player));
@@ -87,7 +86,7 @@ void	init_data(const char *map_filename, t_data *data)
 
 	map_fd = open(map_filename, O_RDONLY);
 	if (map_fd < 0)
-		print_err("Error: Map file not found!\n");
+		print_err("Error: Map file not found or can't be read!\n");
 	data->mlx = mlx_init();
 	init_assets(data);
 	init_map(&(data->map), data->wall.width);

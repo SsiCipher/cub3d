@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 15:19:23 by yanab             #+#    #+#             */
-/*   Updated: 2022/03/05 20:56:55 by yanab            ###   ########.fr       */
+/*   Updated: 2022/03/09 02:12:53 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void	put_image(char map_char, t_data *game_data, int x, int y)
 		w_put_img(*game_data, &(game_data->exit), x, y);
 	else if (map_char == 'C')
 		w_put_img(*game_data, &(game_data->gold), x, y);
-	else if (map_char == 'D')
-		w_put_img(*game_data, &(game_data->enemy), x, y);
 }
 
 // Render the map matrix
@@ -59,11 +57,6 @@ void	decide_move(t_data *data, char next_block, int x, int y)
 		data->gameover = data->score == 0;
 		if (data->score == 0)
 			w_put_str(*data, "Congrats, You've just won", 50, 50);
-	}
-	else if (next_block == 'D')
-	{
-		data->gameover = 1;
-		w_put_str(*data, "You just lost watch out", 100, 50);
 	}
 	else
 	{

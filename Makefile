@@ -6,7 +6,7 @@ SRCS		=	src/check_map.c \
 				src/game.c \
 				src/wrappers.c \
 				src/init_data.c \
-				main.c
+				so_long.c
 
 LIBS		=	libft libftprintf libgnl
 
@@ -23,9 +23,8 @@ $(NAME): $(SRCS)
 libs: $(LIBS)
 
 $(LIBS):
-	@make -C includes/$@
+	make -C includes/$@
 	@cp includes/$@/$@.a includes
-	@echo "Done Creating > $@"
 
 clean:
 	make -C includes/libft clean

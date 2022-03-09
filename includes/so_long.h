@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 09:26:28 by yanab             #+#    #+#             */
-/*   Updated: 2022/03/05 21:26:59 by yanab            ###   ########.fr       */
+/*   Updated: 2022/03/09 02:12:28 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ typedef struct s_data
 	t_player	player;
 	t_img		exit;
 	t_img		gold;
-	t_img		enemy;
 }	t_data;
 
 // check_map.c
@@ -108,8 +107,8 @@ void	w_put_str(t_data data, char *str, int x, int y);
 void	*xpm_to_img_p(t_data data, char const *filename, t_player *player);
 void	*xpm_to_img_i(t_data data, char const *filename, t_img *img);
 
-// main.c
-int		close_window(void);
+// so_long.c
 void	print_err(char const *error_msg);
+int		close_window(void);
 
 #endif
