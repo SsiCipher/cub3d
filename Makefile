@@ -18,7 +18,7 @@ MLX_linux	=	-lmlx -lXext -lX11
 all: $(LIBS) $(NAME)
 
 $(NAME): $(SRCS)
-	$(CC) -I includes $(SRCS) $(INCLUDES) $(MLX_macos) -o $(NAME)
+	$(CC) -I includes $(FLAGS) $(SRCS) $(INCLUDES) $(MLX_macos) -o $(NAME)
 
 libs: $(LIBS)
 

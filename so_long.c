@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 09:15:40 by yanab             #+#    #+#             */
-/*   Updated: 2022/03/09 02:51:50 by yanab            ###   ########.fr       */
+/*   Updated: 2022/03/29 12:25:44 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	close_window(void)
 // Program main function
 int	main(int argc, char const **argv)
 {
-	int		map_fd;
 	t_data	game_data;
 
 	if (argc != 2)

@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 10:14:30 by yanab             #+#    #+#             */
-/*   Updated: 2022/03/09 02:52:39 by yanab            ###   ########.fr       */
+/*   Updated: 2022/03/29 12:26:14 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	check_map_border(t_map map)
 			)
 		)
 			return (0);
-		if (map.width != ft_strlen(*matrix_row))
+		if (map.width != (int)ft_strlen(*matrix_row))
 			return (0);
 		matrix_row++;
 		i++;
