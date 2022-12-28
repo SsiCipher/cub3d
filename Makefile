@@ -1,24 +1,20 @@
 CC			=	cc
-NAME		=	so_long
+NAME		=	cub3d
 FLAGS		=	-Wall -Wextra -Werror
 
-SRCS		=	src/check_map.c \
-				src/game.c \
-				src/wrappers.c \
-				src/init_data.c \
-				so_long.c
+SRCS		=	src/main.c
 
 LIBS		=	libft libgnl
 
-INCLUDES	=	$(LIBS:%=includes/$*/%.a)
+INCLUDES	= -I includes $(LIBS:%=includes/$*/%.a)
 
-MLX_macos	=	-lmlx -framework OpenGL -framework AppKit
-MLX_linux	=	-lmlx -lXext -lX11
+# MLX_macos	=	-lmlx -framework OpenGL -framework AppKit
+# MLX_linux	=	-lmlx -lXext -lX11
 
 all: $(LIBS) $(NAME)
 
 $(NAME): $(SRCS)
-	$(CC) -I includes $(FLAGS) $(SRCS) $(INCLUDES) $(MLX_macos) -o $(NAME)
+	$(CC) $(FLAGS) $(SRCS) $(INCLUDES) -o $(NAME)
 
 libs: $(LIBS)
 

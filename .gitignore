@@ -53,6 +53,6 @@ dkms.conf
 
 # Project related
 TODO
-so_long
+cub3d
 .DS_Store
 *vscode
