@@ -34,8 +34,8 @@ typedef struct s_scene
 	char	*south_texture;
 	char	*west_texture;
 	char	*east_texture;
-	int		floor_color[3];
-	int		ceilling_color[3];
+	int		floor_color;
+	int		ceilling_color;
 	int		map_width;
 	int		map_height;
 	char	**map_matrix;

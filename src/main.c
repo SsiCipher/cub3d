@@ -17,11 +17,65 @@ bool	file_exists(const char *file_name)
 	return (file_exists);
 }
 
+void	init_scene(t_scene *game_scene)
+{
+	game_scene->north_texture = NULL;
+	game_scene->south_texture = NULL;
+	game_scene->west_texture = NULL;
+	game_scene->east_texture = NULL;
+	game_scene->floor_color = 0x000000;
+	game_scene->ceilling_color = 0x000000;
+	game_scene->map_width = 0;
+	game_scene->map_height = 0;
+	game_scene->map_matrix = NULL;
+}
+
+int rgb_to_int(char *line)
+{
+	char **split_line = ft_split(line, ',');
+
+	int r = ft_atoi(split_line[0]);
+	int g = ft_atoi(split_line[1]);
+	int b = ft_atoi(split_line[2]);
+	for (int i = 0; split_line[i]; i++)
+		free(split_line[i]);
+	return (r << 16 | g << 8 | b);
+}
+
+void	read_scene(t_scene *game_scene, int scene_file_fd)
+{
+	char *line;
+
+	line = get_next_line(scene_file_fd);
+	while (line)
+	{
+		char **split_line = ft_split(line, ' ');
+
+		if (!ft_strncmp(split_line[0], "NO", 3))
+			game_scene->north_texture = ft_strdup(split_line[1]);
+		else if (!ft_strncmp(split_line[0], "SO", 3))
+			game_scene->south_texture = ft_strdup(split_line[1]);
+		else if (!ft_strncmp(split_line[0], "WE", 3))
+			game_scene->west_texture = ft_strdup(split_line[1]);
+		else if (!ft_strncmp(split_line[0], "EA", 3))
+			game_scene->east_texture = ft_strdup(split_line[1]);
+		else if (!ft_strncmp(split_line[0], "F", 2))
+			game_scene->floor_color = rgb_to_int(split_line[1]);
+		else if (!ft_strncmp(split_line[0], "C", 2))
+			game_scene->ceilling_color = rgb_to_int(split_line[1]);
+
+		for (int i = 0; split_line[i]; i++)
+			free(split_line[i]);
+		free(line);
+		line = get_next_line(scene_file_fd);
+	}
+}
+
 int main(int argc, char *argv[])
 {
 	t_scene	*game_scene;
 
-	game_scene = malloc(sizeof(t_scene *));
+	game_scene = malloc(sizeof(t_scene));
 	if (!game_scene)
 		return (EXIT_FAILURE);
 	if (argc != 2)
@@ -32,6 +86,9 @@ int main(int argc, char *argv[])
 		printf("Error: unable to open file %s\n", argv[1]);
 	else
 	{
+		init_scene(game_scene);
+		read_scene(game_scene, open(argv[1], O_RDONLY));
+		printf("%d\n", game_scene->ceilling_color);
 		// Read the file line by line
 		// Split by space
 		// Check identifier (line[0])
