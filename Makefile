@@ -1,6 +1,6 @@
 CC			=	cc
 NAME		=	cub3d
-FLAGS		=	-Wall -Wextra -Werror -fsanitize=address -g3
+FLAGS		=	-Wall -Wextra -Werror #-fsanitize=address -g3
 
 SRCS		=	src/main.c
 

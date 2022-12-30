@@ -39,6 +39,7 @@ int rgb_to_int(char *line)
 	int b = ft_atoi(split_line[2]);
 	for (int i = 0; split_line[i]; i++)
 		free(split_line[i]);
+	free(split_line);
 	return (r << 16 | g << 8 | b);
 }
 
@@ -54,27 +55,48 @@ void	read_scene(t_scene *game_scene, int scene_file_fd)
 {
 	char *line;
 
-	line = get_next_line(scene_file_fd);
+	line = ft_getline(scene_file_fd);
 	while (line)
 	{
-		if (!ft_strncmp(split_line[0], "NO", 3))
-			game_scene->north_texture = ft_strdup(split_line[1]);
-		else if (!ft_strncmp(split_line[0], "SO", 3))
-			game_scene->south_texture = ft_strdup(split_line[1]);
-		else if (!ft_strncmp(split_line[0], "WE", 3))
-			game_scene->west_texture = ft_strdup(split_line[1]);
-		else if (!ft_strncmp(split_line[0], "EA", 3))
-			game_scene->east_texture = ft_strdup(split_line[1]);
-		else if (!ft_strncmp(split_line[0], "F", 2))
-			game_scene->floor_color = rgb_to_int(split_line[1]);
-		else if (!ft_strncmp(split_line[0], "C", 2))
-			game_scene->ceilling_color = rgb_to_int(split_line[1]);
-
-		for (int i = 0; split_line[i]; i++)
-			free(split_line[i]);
+		if (line[ft_strlen(line) - 1] == '\n')
+			line[ft_strlen(line) - 1] = '\0';
+		if (!ft_strncmp(line, "NO ", 3))
+			game_scene->north_texture = ft_strdup(line + skip_spaces(line, 3));
+		else if (!ft_strncmp(line, "SO ", 3))
+			game_scene->south_texture = ft_strdup(line + skip_spaces(line, 3));
+		else if (!ft_strncmp(line, "WE ", 3))
+			game_scene->west_texture = ft_strdup(line + skip_spaces(line, 3));
+		else if (!ft_strncmp(line, "EA ", 3))
+			game_scene->east_texture = ft_strdup(line + skip_spaces(line, 3));
+		else if (!ft_strncmp(line, "F ", 2))
+			game_scene->floor_color = rgb_to_int(line + skip_spaces(line, 2));
+		else if (!ft_strncmp(line, "C ", 2))
+			game_scene->ceilling_color = rgb_to_int(line + skip_spaces(line, 2));
 		free(line);
-		line = get_next_line(scene_file_fd);
+		line = ft_getline(scene_file_fd);
 	}
+}
+
+void	debug_print_scene(t_scene *game_scene)
+{
+	printf("north_texture: %s\n", game_scene->north_texture);
+	printf("south_texture: %s\n", game_scene->south_texture);
+	printf("west_texture: %s\n", game_scene->west_texture);
+	printf("east_texture: %s\n", game_scene->east_texture);
+	printf("floor_color: %d\n", game_scene->floor_color);
+	printf("ceilling_color: %d\n", game_scene->ceilling_color);
+}
+
+void	free_scene(t_scene **game_scene)
+{
+	free((*game_scene)->north_texture);
+	free((*game_scene)->south_texture);
+	free((*game_scene)->west_texture);
+	free((*game_scene)->east_texture);
+	if ((*game_scene)->map_matrix)
+		ft_free_arr(&((*game_scene)->map_matrix));
+	free(*game_scene);
+	*game_scene = NULL;
 }
 
 int main(int argc, char *argv[])
@@ -94,12 +116,12 @@ int main(int argc, char *argv[])
 	{
 		init_scene(game_scene);
 		read_scene(game_scene, open(argv[1], O_RDONLY));
-		printf("%d\n", game_scene->ceilling_color);
+		debug_print_scene(game_scene);
 		// Read the file line by line
 		// Split by space
 		// Check identifier (line[0])
 		// Set its value to the coresponding varibles
 	}
-	free(game_scene);
+	free_scene(&game_scene);
 	return 0;
 }
