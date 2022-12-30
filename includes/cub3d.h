@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cipher <cipher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 09:26:28 by yanab             #+#    #+#             */
-/*   Updated: 2022/12/27 10:13:42 by cipher           ###   ########.fr       */
+/*   Updated: 2022/12/30 09:55:22 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <stdbool.h>
 # include <fcntl.h>
 # include "libft/libft.h"
-# include "libgnl/get_next_line.h"
 
 # ifdef __APPLE__
 #  include "keycodes_macos.h"

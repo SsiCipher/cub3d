@@ -4,7 +4,7 @@ FLAGS		=	-Wall -Wextra -Werror -fsanitize=address -g3
 
 SRCS		=	src/main.c
 
-LIBS		=	libft libgnl
+LIBS		=	libft
 
 INCLUDES	= $(LIBS:%=includes/$*/%.a)
 
@@ -24,13 +24,11 @@ $(LIBS):
 
 clean:
 	make -C includes/libft clean
-	make -C includes/libgnl clean
 
 fclean: clean
 	rm -rf $(NAME)
 	rm -rf $(INCLUDES)
 	make -C includes/libft fclean
-	make -C includes/libgnl fclean
 
 re: fclean all
 

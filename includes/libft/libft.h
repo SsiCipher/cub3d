@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 18:23:48 by yanab             #+#    #+#             */
-/*   Updated: 2022/11/10 18:25:39 by yanab            ###   ########.fr       */
+/*   Updated: 2022/12/30 09:43:38 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <stdarg.h>
+# include <fcntl.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1024
+# endif
 
 typedef struct s_list
 {
@@ -107,5 +112,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 void	ft_swap(int *arr, int i, int j);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
+char	*ft_getline(int fd);
 
 #endif

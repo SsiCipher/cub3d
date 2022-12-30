@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   ft_getline.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/19 12:25:05 by yanab             #+#    #+#             */
-/*   Updated: 2022/02/23 22:53:16 by yanab            ###   ########.fr       */
+/*   Created: 2022/12/30 09:22:54 by yanab             #+#    #+#             */
+/*   Updated: 2022/12/30 09:43:24 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
 char	*extract_line(char *str)
 {
@@ -70,16 +70,16 @@ void	fill_buff(int fd, char **rest)
 	{
 		buff[read_bytes] = '\0';
 		tmp = *rest;
-		*rest = join_strs(*rest, buff);
+		*rest = ft_strjoin(*rest, buff);
 		free(tmp);
-		if (has_nl(*rest))
+		if (ft_strchr(*rest, '\n'))
 			break ;
 		read_bytes = read(fd, buff, BUFFER_SIZE);
 	}
 	free(buff);
 }
 
-char	*get_next_line(int fd)
+char	*ft_getline(int fd)
 {
 	char		*tmp;
 	char		*line;
