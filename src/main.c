@@ -42,6 +42,14 @@ int rgb_to_int(char *line)
 	return (r << 16 | g << 8 | b);
 }
 
+size_t skip_spaces(char *line, size_t start_index)
+{
+	size_t i = start_index;
+	while (ft_isspace(line[i]))
+		i++;
+	return (i);
+}
+
 void	read_scene(t_scene *game_scene, int scene_file_fd)
 {
 	char *line;
@@ -49,8 +57,6 @@ void	read_scene(t_scene *game_scene, int scene_file_fd)
 	line = get_next_line(scene_file_fd);
 	while (line)
 	{
-		char **split_line = ft_split(line, ' ');
-
 		if (!ft_strncmp(split_line[0], "NO", 3))
 			game_scene->north_texture = ft_strdup(split_line[1]);
 		else if (!ft_strncmp(split_line[0], "SO", 3))

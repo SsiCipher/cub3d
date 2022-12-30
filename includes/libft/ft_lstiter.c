@@ -1,32 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_lstiter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/14 14:10:38 by yanab             #+#    #+#             */
-/*   Updated: 2021/11/14 14:10:38 by yanab            ###   ########.fr       */
+/*   Created: 2021/11/14 14:11:57 by yanab             #+#    #+#             */
+/*   Updated: 2021/11/14 14:11:57 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *nstr)
+void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	int	i;
-	int	sign;
-	int	num;
+	t_list	*curr;
 
-	i = 0;
-	while (ft_isspace(nstr[i]))
-		i++;
-	sign = 1;
-	if (nstr[i] == '-' || nstr[i] == '+')
-		if (nstr[i++] == '-')
-			sign *= -1;
-	num = 0;
-	while (nstr[i] >= '0' && nstr[i] <= '9')
-		num = num * 10 + (nstr[i++] - '0');
-	return (num * sign);
+	curr = lst;
+	while (curr != NULL && f)
+	{
+		f(curr->content);
+		curr = curr->next;
+	}
 }
