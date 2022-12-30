@@ -1,6 +1,6 @@
 CC			=	cc
 NAME		=	cub3d
-FLAGS		=	-Wall -Wextra -Werror #-fsanitize=address -g3
+FLAGS		=	-Wall -Wextra -Werror
 
 SRCS		=	src/main.c
 
@@ -15,6 +15,9 @@ all: $(LIBS) $(NAME)
 
 $(NAME): $(SRCS)
 	$(CC) $(FLAGS) -I includes $(SRCS) $(INCLUDES) -o $(NAME)
+
+debug: $(SRCS)
+	$(CC) $(FLAGS) -fsanitize=address -g3 -I includes $(SRCS) $(INCLUDES) -o $(NAME)
 
 libs: $(LIBS)
 

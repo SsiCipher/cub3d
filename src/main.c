@@ -23,8 +23,8 @@ void	init_scene(t_scene *game_scene)
 	game_scene->south_texture = NULL;
 	game_scene->west_texture = NULL;
 	game_scene->east_texture = NULL;
-	game_scene->floor_color = 0x000000;
-	game_scene->ceilling_color = 0x000000;
+	game_scene->floor_color = -1;
+	game_scene->ceilling_color = -1;
 	game_scene->map_width = 0;
 	game_scene->map_height = 0;
 	game_scene->map_matrix = NULL;
@@ -51,27 +51,73 @@ size_t skip_spaces(char *line, size_t start_index)
 	return (i);
 }
 
-void	read_scene(t_scene *game_scene, int scene_file_fd)
+void	read_scene_map(t_scene *game_scene, int scene_file_fd)
 {
 	char *line;
 
+	(void)game_scene;
 	line = ft_getline(scene_file_fd);
 	while (line)
 	{
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
+		printf("%s\n", line);
+		free(line);
+		line = ft_getline(scene_file_fd);
+	}
+}
+
+void	read_scene(t_scene *game_scene, int scene_file_fd)
+{
+	char *line;
+	int i = 0;
+
+	line = ft_getline(scene_file_fd);
+	while (line)
+	{
+		printf("i = %d\n", i++);
+		if (line[ft_strlen(line) - 1] == '\n')
+			line[ft_strlen(line) - 1] = '\0';
 		if (!ft_strncmp(line, "NO ", 3))
+		{
+			if (game_scene->north_texture)
+				{printf("Error: north_texture is duplicated\n");exit(1);}
 			game_scene->north_texture = ft_strdup(line + skip_spaces(line, 3));
+		}
 		else if (!ft_strncmp(line, "SO ", 3))
+		{
+			if (game_scene->south_texture)
+				{printf("Error: south_texture is duplicated\n");exit(1);}
 			game_scene->south_texture = ft_strdup(line + skip_spaces(line, 3));
+		}
 		else if (!ft_strncmp(line, "WE ", 3))
+		{
+			if (game_scene->west_texture)
+				{printf("Error: west_texture is duplicated\n");exit(1);}
 			game_scene->west_texture = ft_strdup(line + skip_spaces(line, 3));
+		}
 		else if (!ft_strncmp(line, "EA ", 3))
+		{
+			if (game_scene->east_texture)
+				{printf("Error: east_texture is duplicated\n");exit(1);}
 			game_scene->east_texture = ft_strdup(line + skip_spaces(line, 3));
+		}
 		else if (!ft_strncmp(line, "F ", 2))
+		{
+			if (game_scene->floor_color != -1)
+				{printf("Error: floor_color is duplicated\n");exit(1);}
 			game_scene->floor_color = rgb_to_int(line + skip_spaces(line, 2));
+		}
 		else if (!ft_strncmp(line, "C ", 2))
+		{
+			if (game_scene->ceilling_color != -1)
+				{printf("Error: ceilling_color is duplicated\n");exit(1);}
 			game_scene->ceilling_color = rgb_to_int(line + skip_spaces(line, 2));
+		}
+		else
+		{
+			read_scene_map(game_scene, scene_file_fd);
+		}
 		free(line);
 		line = ft_getline(scene_file_fd);
 	}
@@ -107,17 +153,16 @@ int main(int argc, char *argv[])
 	if (!game_scene)
 		return (EXIT_FAILURE);
 	if (argc != 2)
-		printf("Usage: ./cub3d <map_file.cub>\n");
+		{printf("Usage: ./cub3d <map_file.cub>\n");exit(1);}
 	else if (!valid_extension(argv[1]))
-		printf("Error: the file needs to be a .cub file\n");
+		{printf("Error: the file needs to be a .cub file\n");exit(1);}
 	else if (!file_exists(argv[1]))
-		printf("Error: unable to open file %s\n", argv[1]);
+		{printf("Error: unable to open file %s\n", argv[1]);exit(1);}
 	else
 	{
 		init_scene(game_scene);
 		read_scene(game_scene, open(argv[1], O_RDONLY));
 		debug_print_scene(game_scene);
-		// Read the file line by line
 		// Split by space
 		// Check identifier (line[0])
 		// Set its value to the coresponding varibles
