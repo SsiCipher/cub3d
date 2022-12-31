@@ -30,20 +30,22 @@ void	init_scene(t_scene *game_scene)
 	game_scene->map_matrix = NULL;
 }
 
-int rgb_to_int(char *line)
+int	rgb_to_int(char *line)
 {
-	char **split_line = ft_split(line, ',');
+	char	**split_line;
+	int		color;
 
-	int r = ft_atoi(split_line[0]);
-	int g = ft_atoi(split_line[1]);
-	int b = ft_atoi(split_line[2]);
+	split_line = ft_split(line, ',');
+	color = ft_atoi(split_line[0]);
+	color = (color << 8) + ft_atoi(split_line[1]);
+	color = (color << 8) + ft_atoi(split_line[2]);
 	for (int i = 0; split_line[i]; i++)
 		free(split_line[i]);
 	free(split_line);
-	return (r << 16 | g << 8 | b);
+	return (color);
 }
 
-size_t skip_spaces(char *line, size_t start_index)
+size_t	skip_spaces(char *line, size_t start_index)
 {
 	size_t i = start_index;
 	while (ft_isspace(line[i]))
@@ -70,15 +72,15 @@ void	read_scene_map(t_scene *game_scene, int scene_file_fd)
 void	read_scene(t_scene *game_scene, int scene_file_fd)
 {
 	char *line;
-	int i = 0;
 
 	line = ft_getline(scene_file_fd);
 	while (line)
 	{
-		printf("i = %d\n", i++);
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
-		if (!ft_strncmp(line, "NO ", 3))
+		if (*(line + skip_spaces(line, 0)) == '1')
+			read_scene_map(game_scene, scene_file_fd);
+		else if (!ft_strncmp(line, "NO ", 3))
 		{
 			if (game_scene->north_texture)
 				{printf("Error: north_texture is duplicated\n");exit(1);}
@@ -114,10 +116,6 @@ void	read_scene(t_scene *game_scene, int scene_file_fd)
 				{printf("Error: ceilling_color is duplicated\n");exit(1);}
 			game_scene->ceilling_color = rgb_to_int(line + skip_spaces(line, 2));
 		}
-		else
-		{
-			read_scene_map(game_scene, scene_file_fd);
-		}
 		free(line);
 		line = ft_getline(scene_file_fd);
 	}
@@ -145,7 +143,7 @@ void	free_scene(t_scene **game_scene)
 	*game_scene = NULL;
 }
 
-int main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
 	t_scene	*game_scene;
 
