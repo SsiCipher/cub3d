@@ -61,9 +61,19 @@ void	read_scene_map(t_scene *game_scene, int scene_file_fd)
 	line = ft_getline(scene_file_fd);
 	while (line)
 	{
-		if (line[ft_strlen(line) - 1] == '\n')
-			line[ft_strlen(line) - 1] = '\0';
-		printf("%s\n", line);
+		game_scene->map_matrix = ft_realloc(
+			game_scene->map_matrix,
+			sizeof(char *) * game_scene->map_height,
+			sizeof(char *) * (game_scene->map_height + 1)
+		);
+
+		if (!game_scene->map_matrix)
+			{ printf("Error: coudn't allocate memory\n");exit(1);}
+
+		game_scene->map_matrix[game_scene->map_height - 1] = ft_strtrim(line, "\n");
+		if (!game_scene->map_matrix[game_scene->map_height - 1])
+			{ printf("Error: coudn't allocate memory\n");exit(1);}
+
 		free(line);
 		line = ft_getline(scene_file_fd);
 	}
