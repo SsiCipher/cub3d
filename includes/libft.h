@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cipher <cipher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 18:23:48 by yanab             #+#    #+#             */
-/*   Updated: 2022/12/30 09:43:38 by yanab            ###   ########.fr       */
+/*   Updated: 2023/01/01 13:10:59 by cipher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,6 @@ void	ft_swap(int *arr, int i, int j);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
 char	*ft_getline(int fd);
+int		ft_every_is(char *str, char *set);
 
 #endif

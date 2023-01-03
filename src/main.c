@@ -1,156 +1,116 @@
 #include "cub3d.h"
 
-bool	valid_extension(const char *file_name)
-{
-	return (ft_strncmp(".cub", file_name + (ft_strlen(file_name) - 4), 4) == 0);
-}
-
-bool	file_exists(const char *file_name)
-{
-	int		file_fd;
-	bool	file_exists;
-
-	file_fd = open(file_name, O_RDONLY);
-	file_exists = file_fd != -1;
-	if (file_exists)
-		close(file_fd);
-	return (file_exists);
-}
-
-void	init_scene(t_scene *game_scene)
-{
-	game_scene->north_texture = NULL;
-	game_scene->south_texture = NULL;
-	game_scene->west_texture = NULL;
-	game_scene->east_texture = NULL;
-	game_scene->floor_color = -1;
-	game_scene->ceilling_color = -1;
-	game_scene->map_width = 0;
-	game_scene->map_height = 0;
-	game_scene->map_matrix = NULL;
-}
-
-int	rgb_to_int(char *line)
-{
-	char	**split_line;
-	int		color;
-
-	split_line = ft_split(line, ',');
-	color = ft_atoi(split_line[0]);
-	color = (color << 8) + ft_atoi(split_line[1]);
-	color = (color << 8) + ft_atoi(split_line[2]);
-	for (int i = 0; split_line[i]; i++)
-		free(split_line[i]);
-	free(split_line);
-	return (color);
-}
-
-size_t	skip_spaces(char *line, size_t start_index)
-{
-	size_t i = start_index;
-	while (ft_isspace(line[i]))
-		i++;
-	return (i);
-}
-
-void	read_scene_map(t_scene *game_scene, int scene_file_fd)
+void	read_scene_map(t_scene *game_scene, int scene_file_fd, char *first_line)
 {
 	char *line;
 
-	(void)game_scene;
+	game_scene->map_matrix = (char **)ft_calloc(2, sizeof(char *));
+	game_scene->map_matrix[game_scene->map_height++] = ft_strtrim(first_line, "\n");
 	line = ft_getline(scene_file_fd);
 	while (line)
 	{
-		game_scene->map_matrix = ft_realloc(
+		game_scene->map_height += 1;
+		game_scene->map_matrix = (char **)ft_realloc(
 			game_scene->map_matrix,
 			sizeof(char *) * game_scene->map_height,
-			sizeof(char *) * (game_scene->map_height + 1)
-		);
-
-		if (!game_scene->map_matrix)
-			{ printf("Error: coudn't allocate memory\n");exit(1);}
-
+			sizeof(char *) * (game_scene->map_height + 1));
 		game_scene->map_matrix[game_scene->map_height - 1] = ft_strtrim(line, "\n");
-		if (!game_scene->map_matrix[game_scene->map_height - 1])
-			{ printf("Error: coudn't allocate memory\n");exit(1);}
-
 		free(line);
 		line = ft_getline(scene_file_fd);
 	}
 }
 
-void	read_scene(t_scene *game_scene, int scene_file_fd)
+bool	is_scene_valid(t_scene *scene)
 {
-	char *line;
+	size_t	line_start_gap = 0;
+	size_t	line_end_gap = 0;
 
-	line = ft_getline(scene_file_fd);
-	while (line)
+	for (line_start_gap = 0; scene->map_matrix[0][line_start_gap] == ' '; line_start_gap++);
+	for (line_end_gap = 0; scene->map_matrix[0][ft_strlen(scene->map_matrix[0]) - 1 - line_end_gap] == ' '; line_end_gap++);
+
+	for (size_t i = 0; scene->map_matrix[i]; i++)
 	{
-		if (line[ft_strlen(line) - 1] == '\n')
-			line[ft_strlen(line) - 1] = '\0';
-		if (*(line + skip_spaces(line, 0)) == '1')
-			read_scene_map(game_scene, scene_file_fd);
-		else if (!ft_strncmp(line, "NO ", 3))
+		for (size_t j = 0; j < line_start_gap; j++)
+			if (scene->map_matrix[i][j] != ' ' && scene->map_matrix[i][j] != '1')
+				{printf("Error: line number %ld is not left aligned/closed correctly\n", i+1);return (false);}
+
+		for (size_t j = ft_strlen(scene->map_matrix[i]) - 1 - line_end_gap; j > ft_strlen(scene->map_matrix[i]) - 1; j++)
+			if (scene->map_matrix[i][j] != ' ' && scene->map_matrix[i][j] != '1')
+				{printf("Error: line number %ld is not right aligned/closed correctly\n", i+1);return (false);}
+
+		for (size_t j = line_start_gap; j < ft_strlen(scene->map_matrix[i]) - line_end_gap; j++)
 		{
-			if (game_scene->north_texture)
-				{printf("Error: north_texture is duplicated\n");exit(1);}
-			game_scene->north_texture = ft_strdup(line + skip_spaces(line, 3));
+			if (i == 0 || i == scene->map_height - 1)
+			{
+				if (
+					(
+						scene->map_matrix[i][j] == ' '
+						&& scene->map_matrix[i][j - 1] == '1'
+						&& scene->map_matrix[i][j + 1] == '1'
+					)
+					&& scene->map_matrix[i][j] != '1'
+				)
+				{printf("Error: line number %ld char %ld is not enclosed by wall\n", i+1, j+1);return (false);}
+			}
 		}
-		else if (!ft_strncmp(line, "SO ", 3))
-		{
-			if (game_scene->south_texture)
-				{printf("Error: south_texture is duplicated\n");exit(1);}
-			game_scene->south_texture = ft_strdup(line + skip_spaces(line, 3));
-		}
-		else if (!ft_strncmp(line, "WE ", 3))
-		{
-			if (game_scene->west_texture)
-				{printf("Error: west_texture is duplicated\n");exit(1);}
-			game_scene->west_texture = ft_strdup(line + skip_spaces(line, 3));
-		}
-		else if (!ft_strncmp(line, "EA ", 3))
-		{
-			if (game_scene->east_texture)
-				{printf("Error: east_texture is duplicated\n");exit(1);}
-			game_scene->east_texture = ft_strdup(line + skip_spaces(line, 3));
-		}
-		else if (!ft_strncmp(line, "F ", 2))
-		{
-			if (game_scene->floor_color != -1)
-				{printf("Error: floor_color is duplicated\n");exit(1);}
-			game_scene->floor_color = rgb_to_int(line + skip_spaces(line, 2));
-		}
-		else if (!ft_strncmp(line, "C ", 2))
-		{
-			if (game_scene->ceilling_color != -1)
-				{printf("Error: ceilling_color is duplicated\n");exit(1);}
-			game_scene->ceilling_color = rgb_to_int(line + skip_spaces(line, 2));
-		}
-		free(line);
-		line = ft_getline(scene_file_fd);
+
+		for (line_start_gap = 0; scene->map_matrix[i][line_start_gap] == ' '; line_start_gap++);
+		for (line_end_gap = 0; scene->map_matrix[i][ft_strlen(scene->map_matrix[i]) - 1 - line_end_gap] == ' '; line_end_gap++);
 	}
+	return (true);
 }
 
-void	debug_print_scene(t_scene *game_scene)
+bool	_is_scene_valid(t_scene *scene)
 {
-	printf("north_texture: %s\n", game_scene->north_texture);
-	printf("south_texture: %s\n", game_scene->south_texture);
-	printf("west_texture: %s\n", game_scene->west_texture);
-	printf("east_texture: %s\n", game_scene->east_texture);
-	printf("floor_color: %d\n", game_scene->floor_color);
-	printf("ceilling_color: %d\n", game_scene->ceilling_color);
-}
+	size_t	line_start_gap;
+	size_t	line_end_gap;
 
-void	free_scene(t_scene **game_scene)
-{
-	free((*game_scene)->north_texture);
-	free((*game_scene)->south_texture);
-	free((*game_scene)->west_texture);
-	free((*game_scene)->east_texture);
-	if ((*game_scene)->map_matrix)
-		ft_free_arr(&((*game_scene)->map_matrix));
-	free(*game_scene);
-	*game_scene = NULL;
+	for (line_start_gap = 0; scene->map_matrix[0][line_start_gap] == ' '; line_start_gap++);
+	for (line_end_gap = 0; scene->map_matrix[0][line_end_gap] == ' '; line_end_gap++);
+
+	for (size_t i = 0; scene->map_matrix[i]; i++)
+	{
+		if (
+			scene->map_matrix[i][line_start_gap] != '1'
+			|| scene->map_matrix[i][ft_strlen(scene->map_matrix[i]) - line_end_gap - 1] != '1'
+		)
+			{printf("Error: line number %ld is not surronded by walls\n", i+1);return (false);}
+		else
+		{
+			if (i == 0 || i == scene->map_height - 1)
+			{
+				for (size_t j = line_start_gap; j < ft_strlen(scene->map_matrix[i]) - line_end_gap; j++)
+				{
+					if (
+						scene->map_matrix[i][j] == ' '
+						&& (
+							scene->map_matrix[i][j - 1] != '1'
+							|| scene->map_matrix[i][j + 1] != '1'
+						)
+					)
+						{printf("Error: line number %ld is not a wall\n", i+1);return (false);}
+					else if (scene->map_matrix[i][j] != '1')
+						{printf("Error: line number %ld is not a wall\n", i+1);return (false);}
+				}
+			}
+			else
+			{
+				for (size_t j = line_start_gap; j < ft_strlen(scene->map_matrix[i]) - line_end_gap; j++)
+					if (ft_indexof("01NSEW ", scene->map_matrix[i][j]) == -1)
+						{printf("Error: line number %ld contains invalid chars\n", i+1);return (false);}
+			}
+
+			// if (line_type && !ft_every_char(scene->map_matrix[i], line_type))
+			// 	{printf("Error: line number %ld is not a wall\n", i+1);return (false);}
+			// else
+			// {
+			// 	for (size_t j = line_start_gap; j < ft_strlen(scene->map_matrix[i]) - line_end_gap; j++)
+			// 		if (ft_indexof("01NSEW ", scene->map_matrix[i][j]) == -1)
+			// 			{printf("Error: line number %ld contains invalid chars\n", i+1);return (false);}
+			// }
+		}
+	}
+	return (true);
 }
 
 int	main(int argc, char *argv[])
@@ -163,14 +123,18 @@ int	main(int argc, char *argv[])
 	if (argc != 2)
 		{printf("Usage: ./cub3d <map_file.cub>\n");exit(1);}
 	else if (!valid_extension(argv[1]))
-		{printf("Error: the file needs to be a .cub file\n");exit(1);}
+		{printf("Error: the given file '%s' is not .cub\n", argv[1]);exit(1);}
 	else if (!file_exists(argv[1]))
-		{printf("Error: unable to open file %s\n", argv[1]);exit(1);}
+		{printf("Error: the given file '%s' is not found\n", argv[1]);exit(1);}
 	else
 	{
 		init_scene(game_scene);
-		read_scene(game_scene, open(argv[1], O_RDONLY));
-		debug_print_scene(game_scene);
+		read_scene_file(game_scene, open(argv[1], O_RDONLY));
+		// if (!(game_scene->map_matrix))
+		// 	{printf("Error: the given file '%s' is empty\n", argv[1]);exit(1);}
+		// if (is_scene_valid(game_scene))
+		// debug_print_scene(game_scene);
+
 		// Split by space
 		// Check identifier (line[0])
 		// Set its value to the coresponding varibles

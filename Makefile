@@ -1,37 +1,40 @@
-CC			=	cc
-NAME		=	cub3d
-FLAGS		=	-Wall -Wextra -Werror
+CC				=	cc
+NAME			=	cub3d
+FLAGS			=	-Wall -Wextra -Werror
+DBG_FLAGS	=	-fsanitize=address -g3
 
-SRCS		=	src/main.c
+INCS_DIR	= includes
+LIBS_DIR	= libs
+SRCS_DIR	=	src
 
-LIBS		=	libft
+LIBS			= libft
 
-INCLUDES	= $(LIBS:%=includes/$*/%.a)
+SRCS =	$(SRCS_DIR)/debug.c \
+				$(SRCS_DIR)/error_check.c \
+				$(SRCS_DIR)/init_scene.c \
+				$(SRCS_DIR)/main.c \
+				$(SRCS_DIR)/utils.c
 
-# MLX_macos	=	-lmlx -framework OpenGL -framework AppKit
-# MLX_linux	=	-lmlx -lXext -lX11
-
-all: $(LIBS) $(NAME)
+all: libs $(NAME)
 
 $(NAME): $(SRCS)
-	$(CC) $(FLAGS) -I includes $(SRCS) $(INCLUDES) -o $(NAME)
+	$(CC) $(FLAGS) -I $(INCS_DIR) $(SRCS) -L $(LIBS_DIR) -l $(LIBS:lib%=%) -o $(NAME)
 
 debug: $(SRCS)
-	$(CC) $(FLAGS) -fsanitize=address -g3 -I includes $(SRCS) $(INCLUDES) -o $(NAME)
+	$(CC) $(FLAGS) $(DBG_FLAGS) -I $(INCS_DIR) $(SRCS) -L $(LIBS_DIR) -l $(LIBS:lib%=%) -o $(NAME)
 
 libs: $(LIBS)
 
 $(LIBS):
-	make -C includes/$@
-	@cp includes/$@/$@.a includes
+	make -C $(LIBS_DIR)/$@
+	cp -f $(LIBS_DIR)/$@/$@.h $(INCS_DIR)
+	cp -f $(LIBS_DIR)/$@/$@.a $(LIBS_DIR)
 
 clean:
-	make -C includes/libft clean
+	rm -rf $(NAME)
 
 fclean: clean
-	rm -rf $(NAME)
-	rm -rf $(INCLUDES)
-	make -C includes/libft fclean
+	make fclean -C $(LIBS_DIR)/libft
 
 re: fclean all
 

@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_indexof.c                                       :+:      :+:    :+:   */
+/*   ft_every_is.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cipher <cipher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/04 09:47:23 by cipher            #+#    #+#             */
-/*   Updated: 2022/10/29 03:39:00 by yanab            ###   ########.fr       */
+/*   Created: 2021/12/13 07:20:04 by yanab             #+#    #+#             */
+/*   Updated: 2023/01/01 13:18:59 by cipher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_indexof(char *str, char c)
+int	ft_every_is(char *str, char *set)
 {
-	int		i;
-
-	i = -1;
-	while (str[++i])
+	while (*str)
 	{
-		if (str[i] == c)
-			return (i);
+		if (ft_indexof(set, *str) == -1)
+			return (0);
+		str++;
 	}
-	return (-1);
+	return (1);
 }

@@ -80,7 +80,8 @@ SRCS =	ft_abs.c \
 		ft_split.c \
 		ft_strjoin_arr.c \
 		ft_strrchr.c \
-		ft_getline.c
+		ft_getline.c \
+		ft_every_is.c
 
 OBJS = $(SRCS:.c=.o)
 
