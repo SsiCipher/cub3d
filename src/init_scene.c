@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:36:15 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/05 14:01:55 by yanab            ###   ########.fr       */
+/*   Updated: 2023/01/05 17:42:04 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ t_scene	*init_scene()
 	game_scene->ceilling_color = -1;
 	game_scene->map_width = 0;
 	game_scene->map_height = 0;
-	game_scene->map_matrix = ft_calloc(1, sizeof(char *));
-	if (!game_scene->map_matrix)
+	game_scene->map = ft_calloc(1, sizeof(char *));
+	if (!game_scene->map)
 		exit(2);
+	game_scene->player_direction = UNSET;
 	return (game_scene);
 }
 
@@ -39,7 +40,7 @@ void	free_scene(t_scene **game_scene)
 	free((*game_scene)->south_texture);
 	free((*game_scene)->west_texture);
 	free((*game_scene)->east_texture);
-	ft_free_arr(&((*game_scene)->map_matrix));
+	ft_free_arr(&((*game_scene)->map));
 	free(*game_scene);
 	*game_scene = NULL;
 }
@@ -93,15 +94,16 @@ void	read_scene_map(t_scene *scene, int scene_fd, char *line)
 	while (line)
 	{
 		scene->map_height += 1;
-		scene->map_matrix = (char **)ft_realloc(scene->map_matrix,
+		scene->map = (char **)ft_realloc(scene->map,
 			sizeof(char *) * scene->map_height,
 			sizeof(char *) * (scene->map_height + 1));
-		scene->map_matrix[scene->map_height - 1] = ft_strtrim(line, "\n");
-		// free(line);
+		scene->map[scene->map_height - 1] = ft_strtrim(line, "\n");
+		if (scene->map_height != 1)
+			free(line);
 		line = ft_getline(scene_fd);
 	}
 	if (scene->map_height > 0)
-		scene->map_matrix[scene->map_height - 1] = NULL;
+		scene->map[scene->map_height] = NULL;
 }
 
 void	read_scene_file(t_scene *scene, int scene_file_fd)

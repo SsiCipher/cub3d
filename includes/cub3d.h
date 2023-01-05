@@ -6,14 +6,14 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 09:26:28 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/05 13:44:30 by yanab            ###   ########.fr       */
+/*   Updated: 2023/01/05 17:41:42 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-// # include <mlx.h>
+# include <mlx.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -27,6 +27,13 @@
 #  include "keycodes_linux.h"
 # endif
 
+typedef struct s_img
+{
+	void	*img;
+	int		width;
+	int		height;
+}	t_img;
+
 typedef struct s_scene
 {
 	char	*north_texture;
@@ -37,7 +44,14 @@ typedef struct s_scene
 	int		ceilling_color;
 	size_t	map_width;
 	size_t	map_height;
-	char	**map_matrix;
+	char	**map;
+	enum e_dir {
+		UNSET,
+		NORTH,
+		SOUTH,
+		EAST,
+		WEST
+	} player_direction;
 }	t_scene;
 
 typedef struct s_line
@@ -63,6 +77,7 @@ bool	is_valid_element(char *element_name, char *line);
 bool	valid_extension(const char *file_name);
 bool	file_exists(const char *file_name);
 void	check_elements(t_scene scene);
+bool	check_scene_map(t_scene *scene);
 
 // src/debug.c
 void	debug_print_scene(t_scene *scene);

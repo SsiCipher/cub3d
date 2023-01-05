@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:36:29 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/05 13:59:57 by yanab            ###   ########.fr       */
+/*   Updated: 2023/01/05 16:53:19 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ void	debug_print_scene(t_scene *scene)
 	printf("floor_color: [%d]\n", scene->floor_color);
 	printf("ceilling_color: [%d]\n", scene->ceilling_color);
 	printf("map => width: [%ld], height: [%ld]\n", scene->map_width, scene->map_height);
-	for (int i = 0; scene->map_matrix[i]; i++)
-		printf("%s\n", scene->map_matrix[i]);
+	for (int i = 0; scene->map[i]; i++)
+		printf("%s\n", scene->map[i]);
 }

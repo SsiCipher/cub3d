@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:36:22 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/05 13:47:11 by yanab            ###   ########.fr       */
+/*   Updated: 2023/01/05 17:39:01 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,10 @@ int	main(int argc, char *argv[])
 	{
 		game_scene = init_scene();
 		read_scene_file(game_scene, open(argv[1], O_RDONLY));
-		debug_print_scene(game_scene);
+		if (check_scene_map(game_scene))
+			debug_print_scene(game_scene);
 	}
 	free_scene(&game_scene);
+	// system("leaks cub3d");
 	return (0);
 }
