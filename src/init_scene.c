@@ -1,7 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_scene.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/05 13:36:15 by yanab             #+#    #+#             */
+/*   Updated: 2023/01/05 14:01:55 by yanab            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-void	init_scene(t_scene *game_scene)
+t_scene	*init_scene()
 {
+	t_scene *game_scene;
+
+	game_scene = malloc(sizeof(t_scene));
+	if (!game_scene)
+		exit(2);
 	game_scene->north_texture = NULL;
 	game_scene->south_texture = NULL;
 	game_scene->west_texture = NULL;
@@ -12,7 +29,8 @@ void	init_scene(t_scene *game_scene)
 	game_scene->map_height = 0;
 	game_scene->map_matrix = ft_calloc(1, sizeof(char *));
 	if (!game_scene->map_matrix)
-		exit(1);
+		exit(2);
+	return (game_scene);
 }
 
 void	free_scene(t_scene **game_scene)
@@ -26,81 +44,93 @@ void	free_scene(t_scene **game_scene)
 	*game_scene = NULL;
 }
 
-void	add_scene_element(t_scene *scene, char *scene_line)
+void	add_texture(char **texture, char *value, char *direction)
 {
+	if (*texture)
+		display_error(
+			ft_multijoin(
+				3, "Error: ", direction, " texture is duplicated\n"), 1);
+	*texture = ft_strtrim(value + skip_spaces(value, 2), "\n");
+	if (ft_isempty(*texture))
+		display_error(
+			ft_multijoin(3, "Error: ", direction, " texture is empty\n"), 1);
+}
 
+void	add_color(int *color, char *value, char *direction)
+{
+	char	*color_str;
+
+	color_str = ft_strtrim(value + skip_spaces(value, 1), "\n");
+	if (*color >= 0)
+		display_error(
+			ft_multijoin(3, "Error: ", direction, " color is duplicated\n"), 1);
+	if (ft_isempty(color_str))
+		display_error(
+			ft_multijoin(3, "Error: ", direction, " color is empty\n"), 1);
+	*color = rgb_to_int(color_str);
+	if (*color == -2)
+		display_error(
+			ft_multijoin(3, "Error: ", direction, " color is invalid\n"), 1);
+	free(color_str);
+}
+
+/*
+! CASES
+	* element cases:
+		> non existant
+		> empty
+		> invalid value (color -> out-of-range, texture -> file-not-found)
+		> duplicated
+	* map cases:
+		> non existant
+		> invalid chars
+		> not surronded by walls
+		> has empty lines in between
+*/
+
+void	read_scene_map(t_scene *scene, int scene_fd, char *line)
+{
+	while (line)
+	{
+		scene->map_height += 1;
+		scene->map_matrix = (char **)ft_realloc(scene->map_matrix,
+			sizeof(char *) * scene->map_height,
+			sizeof(char *) * (scene->map_height + 1));
+		scene->map_matrix[scene->map_height - 1] = ft_strtrim(line, "\n");
+		// free(line);
+		line = ft_getline(scene_fd);
+	}
+	if (scene->map_height > 0)
+		scene->map_matrix[scene->map_height - 1] = NULL;
 }
 
 void	read_scene_file(t_scene *scene, int scene_file_fd)
 {
 	char	*line;
-	size_t	start_spaces;
-	// char	identifiers[7] = {"NO", "SO", "WE", "EA", "F", "C", NULL};
-
-	(void)scene;
-	line = ft_getline(scene_file_fd);
-	while (line)
-	{
-		start_spaces = skip_spaces(line, 0);
-		if (line[start_spaces] == '1')
-		if (!ft_strncmp(line + start_spaces, "NO ", 3))
-			printf("%s", line);
-		free(line);
-		line = ft_getline(scene_file_fd);
-	}
-}
-
-void	_read_scene_file(t_scene *game_scene, int scene_file_fd)
-{
-	char *line;
+	size_t	spaces;
 
 	line = ft_getline(scene_file_fd);
 	while (line)
 	{
-		if (line[ft_strlen(line) - 1] == '\n')
-			line[ft_strlen(line) - 1] = '\0';
-		// if (*(line + skip_spaces(line, 0)) == '1')
-		// 	read_scene_map(game_scene, scene_file_fd, line);
-		else if (!ft_strncmp(line, "NO ", 3))
+		spaces = skip_spaces(line, 0);
+		if (line[spaces] == '1')
 		{
-			if (game_scene->north_texture)
-				{printf("Error: north_texture is duplicated\n");exit(1);}
-			game_scene->north_texture = ft_strdup(line + skip_spaces(line, 3));
+			check_elements(*scene);
+			read_scene_map(scene, scene_file_fd, line);
 		}
-		else if (!ft_strncmp(line, "SO ", 3))
-		{
-			if (game_scene->south_texture)
-				{printf("Error: south_texture is duplicated\n");exit(1);}
-			game_scene->south_texture = ft_strdup(line + skip_spaces(line, 3));
-		}
-		else if (!ft_strncmp(line, "WE ", 3))
-		{
-			if (game_scene->west_texture)
-				{printf("Error: west_texture is duplicated\n");exit(1);}
-			game_scene->west_texture = ft_strdup(line + skip_spaces(line, 3));
-		}
-		else if (!ft_strncmp(line, "EA ", 3))
-		{
-			if (game_scene->east_texture)
-				{printf("Error: east_texture is duplicated\n");exit(1);}
-			game_scene->east_texture = ft_strdup(line + skip_spaces(line, 3));
-		}
-		else if (!ft_strncmp(line, "F ", 2))
-		{
-			if (game_scene->floor_color != -1)
-				{printf("Error: floor_color is duplicated\n");exit(1);}
-			game_scene->floor_color = rgb_to_int(line + skip_spaces(line, 2));
-		}
-		else if (!ft_strncmp(line, "C ", 2))
-		{
-			if (game_scene->ceilling_color != -1)
-				{printf("Error: ceilling_color is duplicated\n");exit(1);}
-			game_scene->ceilling_color = rgb_to_int(line + skip_spaces(line, 2));
-		}
-		else if (!ft_isempty(line))
-			{printf("Error: the map contains invalid identifier\n");exit(1);}
+		else if (is_valid_element("NO", line + spaces))
+			add_texture(&(scene->north_texture), line + spaces, "north");
+		else if (is_valid_element("SO", line + spaces))
+			add_texture(&(scene->south_texture), line + spaces, "south");
+		else if (is_valid_element("WE", line + spaces))
+			add_texture(&(scene->west_texture), line + spaces, "west");
+		else if (is_valid_element("EA", line + spaces))
+			add_texture(&(scene->east_texture), line + spaces, "east");
+		if (is_valid_element("F", line + spaces))
+			add_color(&(scene->floor_color), line + spaces, "floor");
+		else if (is_valid_element("C", line + spaces))
+			add_color(&(scene->ceilling_color), line + spaces, "ceilling");
 		free(line);
 		line = ft_getline(scene_file_fd);
 	}
 }
-

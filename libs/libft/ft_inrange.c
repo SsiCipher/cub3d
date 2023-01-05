@@ -14,5 +14,5 @@
 
 int	ft_inrange(int number, int min, int max)
 {
-	return (number >= min && number < max);
+	return (number >= min && number <= max);
 }
