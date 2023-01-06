@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cipher <cipher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:36:20 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/05 18:45:29 by yanab            ###   ########.fr       */
+/*   Updated: 2023/01/06 21:46:50 by cipher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,35 +64,55 @@ bool	set_player_dir(t_scene *scene, char c)
 
 bool	check_scene_map(t_scene *scene)
 {
-	size_t start_gap = 0;
-	// size_t end_gap = 0;
+	int start_gap = 0;
+	int end_gap = 0;
 
-	// for (start_gap = 0; scene->map[0][start_gap] == ' '; start_gap++);
+	if (!scene->map[0])
+		return (!printf("Error: the scene file has no map\n"));
 
-	for (size_t i = 0; scene->map[i]; i++)
+	for (start_gap = 0; scene->map[0][start_gap] == ' '; start_gap++);
+	for (end_gap = ft_strlen(scene->map[0]) - 1; scene->map[0][end_gap] != '0'; end_gap--);
+
+	// printf("[%d] [%d]\n", start_gap, end_gap);
+
+	for (int i = 0; scene->map[i]; i++)
 	{
 		// inital part of the line has to either be a space or a wall (1)
-		for (size_t j = 0; j < start_gap; j++)
+		for (int j = 0; j < start_gap; j++)
 		{
 			if (scene->map[i][j] != ' ' && scene->map[i][j] != '1')
-				return (!printf("Error: line #%ld is not left aligned/closed correctly\n", i+1));
+				return (!printf("Error: line #%d is not left aligned/closed correctly\n", i+1));
 		}
 
 		// first char of the line has to be a wall (1)
-		if (i != 0 && scene->map[i][start_gap] != '1')
-			return (!printf("Error: line #%ld is not enclosed by a wall\n", i+1));
+		// 
+		if (
+			scene->map[i][start_gap] != '1'
+			|| (
+				end_gap >= 0
+				&& (
+					scene->map[i][end_gap + 1] != '1'
+					|| (
+						scene->map[i][ft_strlen(scene->map[i])-1] != '1'
+						|| (int)ft_strlen(scene->map[i]) < end_gap
+					)
+				)
+			)
+		)
+			return (!printf("Error: line #%d is not enclosed by a wall\n", i+1));
 
 		// line chars have to be valid and the player has to be one
 		for (size_t j = start_gap; scene->map[i][j]; j++)
 		{
 			if (ft_indexof(" 01NSEW", scene->map[i][j]) == -1)
-				return (!printf("Error: line #%ld contains non valid chars\n", i+1));
+				return (!printf("Error: line #%d contains non valid chars\n", i+1));
 			else if (!set_player_dir(scene, scene->map[i][j]))
-				return (!printf("Error: line #%ld contains another player\n", i+1));
+				return (!printf("Error: line #%d contains another player\n", i+1));
 		}
 
 		// reset start spaces count
 		for (start_gap = 0; scene->map[i][start_gap] == ' '; start_gap++);
+		for (end_gap = ft_strlen(scene->map[i]) - 1; scene->map[i][end_gap] != '0'; end_gap--);
 	}
 
 	return (true);

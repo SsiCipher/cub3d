@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_scene.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cipher <cipher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:36:15 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/05 17:42:04 by yanab            ###   ########.fr       */
+/*   Updated: 2023/01/06 21:55:46 by cipher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,11 @@ void	add_color(int *color, char *value, char *direction)
 		> empty
 		> invalid value (color -> out-of-range, texture -> file-not-found)
 		> duplicated
+		> invalid line with wrong identifier
 	* map cases:
 		> non existant
-		> invalid chars
+		> it has one player
+		> doesn't contain invalid chars
 		> not surronded by walls
 		> has empty lines in between
 */
