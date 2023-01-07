@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_scene.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cipher <cipher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:36:15 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/06 21:55:46 by cipher           ###   ########.fr       */
+/*   Updated: 2023/01/07 03:49:12 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,17 +78,18 @@ void	add_color(int *color, char *value, char *direction)
 /*
 ! CASES
 	* element cases:
-		> non existant
-		> empty
-		> invalid value (color -> out-of-range, texture -> file-not-found)
-		> duplicated
-		> invalid line with wrong identifier
+		[x] non existant
+		[x] empty
+		[x] invalid value (color -> out-of-range)
+		[ ] invalid value (texture -> file-not-found)
+		[x] duplicated
+		[x] invalid line with wrong identifier
 	* map cases:
-		> non existant
-		> it has one player
-		> doesn't contain invalid chars
-		> not surronded by walls
-		> has empty lines in between
+		[x] non existant
+		[ ] it has one player
+		[ ] doesn't contain invalid chars
+		[ ] not surronded by walls
+		[ ] has empty lines in between
 */
 
 void	read_scene_map(t_scene *scene, int scene_fd, char *line)
@@ -130,10 +131,12 @@ void	read_scene_file(t_scene *scene, int scene_file_fd)
 			add_texture(&(scene->west_texture), line + spaces, "west");
 		else if (is_valid_element("EA", line + spaces))
 			add_texture(&(scene->east_texture), line + spaces, "east");
-		if (is_valid_element("F", line + spaces))
+		else if (is_valid_element("F", line + spaces))
 			add_color(&(scene->floor_color), line + spaces, "floor");
 		else if (is_valid_element("C", line + spaces))
 			add_color(&(scene->ceilling_color), line + spaces, "ceilling");
+		else if (line[0] != '\n' || ft_isempty(line))
+			display_error("Error: scene file contains an invalid element\n", 1);
 		free(line);
 		line = ft_getline(scene_file_fd);
 	}
