@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cipher <cipher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:36:20 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/06 21:46:50 by cipher           ###   ########.fr       */
+/*   Updated: 2023/01/07 03:40:09 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,51 @@ bool	set_player_dir(t_scene *scene, char c)
 	return (true);
 }
 
+bool	is_valid_surrounding(t_scene *scene, size_t i, size_t j)
+{
+	// return (
+	// 	ft_indexof("01NSEW", scene->map[i+1][j]) != -1
+	// 	&& ft_indexof("01NSEW", scene->map[i-1][j]) != -1
+	// 	&& ft_indexof("01NSEW", scene->map[i][j+1]) != -1
+	// 	&& ft_indexof("01NSEW", scene->map[i][j-1]) != -1
+	// );
+	return (
+		scene->map[i+1][j] != ' ' && scene->map[i+1][j] != '\0'
+		&& scene->map[i-1][j] != ' ' && scene->map[i-1][j] != '\0'
+		&& scene->map[i][j+1] != ' ' && scene->map[i][j+1] != '\0'
+		&& scene->map[i][j-1] != ' ' && scene->map[i][j-1] != '\0'
+	);
+}
+
+// TODO: check for case for mbarek
 bool	check_scene_map(t_scene *scene)
+{
+	size_t	i;
+	size_t	j;
+
+	i = -1;
+	while (scene->map[++i])
+	{
+		if ((i == 0 || i == scene->map_height - 1) && !ft_every_is(scene->map[i], " 1"))
+			return (!printf("Error: line #%ld isn't a wall\n", i+1));
+		else if (i != 0 && i != scene->map_height - 1)
+		{
+			j = -1;
+			while (scene->map[i][++j])
+			{
+				if (ft_indexof(" 01NSEW", scene->map[i][j]) == -1)
+					return (!printf("Error: line #%ld contains non valid chars\n", i+1));
+				else if (!set_player_dir(scene, scene->map[i][j]))
+					return (!printf("Error: line #%ld contains another player\n", i+1));
+				else if (scene->map[i][j] == '0' && !is_valid_surrounding(scene, i, j))
+					return (!printf("Error: line #%ld isn't an enclosed by a wall\n", i+1));
+			}
+		}
+	}
+	return (true);
+}
+
+bool	_check_scene_map(t_scene *scene)
 {
 	int start_gap = 0;
 	int end_gap = 0;
