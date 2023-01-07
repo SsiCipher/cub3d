@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cipher <cipher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:36:22 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/07 03:32:49 by yanab            ###   ########.fr       */
+/*   Updated: 2023/01/07 22:05:58 by cipher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int argc, char *argv[])
 	game_scene = NULL;
 	if (argc != 2)
 		display_error("Usage: ./cub3d <map_file.cub>\n", 1);
-	else if (!valid_extension(argv[1]))
+	else if (!is_valid_extension(argv[1]))
 		display_error(
 			ft_multijoin(3, "Error: file '", argv[1], "' is not .cub\n"), 1);
 	else if (!file_exists(argv[1]))

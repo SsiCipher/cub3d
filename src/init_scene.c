@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   init_scene.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cipher <cipher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:36:15 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/07 03:49:12 by yanab            ###   ########.fr       */
+/*   Updated: 2023/01/07 23:11:57 by cipher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-t_scene	*init_scene()
+t_scene	*init_scene(void)
 {
-	t_scene *game_scene;
+	t_scene	*game_scene;
 
 	game_scene = malloc(sizeof(t_scene));
 	if (!game_scene)
@@ -86,20 +86,24 @@ void	add_color(int *color, char *value, char *direction)
 		[x] invalid line with wrong identifier
 	* map cases:
 		[x] non existant
-		[ ] it has one player
-		[ ] doesn't contain invalid chars
-		[ ] not surronded by walls
-		[ ] has empty lines in between
+		[x] it has one player
+		[x] no empty lines
+		[x] doesn't contain invalid chars
+		[x] not surronded by walls
+		[x] has empty lines in between
+		[ ] corners are well enclosed
 */
 
 void	read_scene_map(t_scene *scene, int scene_fd, char *line)
 {
 	while (line)
 	{
+		if (line[0] == '\n' || line[0] == '\0')
+			display_error("Error: your map can't contain empty lines\n", 1);
 		scene->map_height += 1;
 		scene->map = (char **)ft_realloc(scene->map,
-			sizeof(char *) * scene->map_height,
-			sizeof(char *) * (scene->map_height + 1));
+				sizeof(char *) * scene->map_height,
+				sizeof(char *) * (scene->map_height + 1));
 		scene->map[scene->map_height - 1] = ft_strtrim(line, "\n");
 		if (scene->map_height != 1)
 			free(line);

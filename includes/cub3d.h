@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cipher <cipher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 09:26:28 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/05 17:41:42 by yanab            ###   ########.fr       */
+/*   Updated: 2023/01/07 22:03:11 by cipher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ size_t	skip_spaces(char *line, size_t start_index);
 bool	is_valid_element(char *element_name, char *line);
 
 // src/error_check.c
-bool	valid_extension(const char *file_name);
+bool	is_valid_extension(const char *file_name);
 bool	file_exists(const char *file_name);
 void	check_elements(t_scene scene);
 bool	check_scene_map(t_scene *scene);
