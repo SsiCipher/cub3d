@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cipher <cipher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:36:18 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/07 22:03:02 by cipher           ###   ########.fr       */
+/*   Updated: 2023/01/08 04:59:59 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,17 @@ bool	is_valid_element(char *element_name, char *line)
 			|| line[element_len] == '\0'
 		)
 	);
+}
+
+t_img	*get_texture(t_global *global, char *direction)
+{
+	if (direction[0] == 'n')
+		return (&(global->scene->north_texture));
+	else if (direction[0] == 's')
+		return (&(global->scene->south_texture));
+	else if (direction[0] == 'w')
+		return (&(global->scene->west_texture));
+	else if (direction[0] == 'e')
+		return (&(global->scene->east_texture));
+	return (NULL);
 }

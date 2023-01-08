@@ -1,27 +1,31 @@
-CC				=	cc
-NAME			=	cub3d
-FLAGS			=	-Wall -Wextra -Werror
-DBG_FLAGS	=	-fsanitize=address -g3
+CC			= 	cc
+NAME		= 	cub3d
+FLAGS		= 	-Wall -Wextra -Werror -lm
+DBG_FLAGS	= 	-fsanitize=address -g3
+MLX_FLAGS	= 	-lmlx -framework OpenGL -framework AppKit
 
-INCS_DIR	= includes
-LIBS_DIR	= libs
-SRCS_DIR	=	src
+INCS_DIR	= 	includes
+LIBS_DIR	= 	libs
+SRCS_DIR	= 	src
 
-LIBS			= libft
+LIBS		= 	libft
 
-SRCS =	$(SRCS_DIR)/debug.c \
-				$(SRCS_DIR)/error_check.c \
-				$(SRCS_DIR)/init_scene.c \
-				$(SRCS_DIR)/main.c \
-				$(SRCS_DIR)/utils.c
+SRCS		=	$(SRCS_DIR)/parsing/debug.c \
+				$(SRCS_DIR)/parsing/error_check.c \
+				$(SRCS_DIR)/parsing/init_scene.c \
+				$(SRCS_DIR)/parsing/utils.c \
+				$(SRCS_DIR)/raycasting/rc_utils.c \
+				$(SRCS_DIR)/raycasting/events.c \
+				$(SRCS_DIR)/wrappers.c \
+				$(SRCS_DIR)/main.c
 
 all: libs $(NAME)
 
 $(NAME): $(SRCS)
-	$(CC) $(FLAGS) -I $(INCS_DIR) $(SRCS) -L $(LIBS_DIR) -l $(LIBS:lib%=%) -o $(NAME)
+	$(CC) $(FLAGS) $(MLX_FLAGS) -I $(INCS_DIR) $(SRCS) -L $(LIBS_DIR) -l $(LIBS:lib%=%) -o $(NAME)
 
 debug: $(SRCS)
-	$(CC) $(FLAGS) $(DBG_FLAGS) -I $(INCS_DIR) $(SRCS) -L $(LIBS_DIR) -l $(LIBS:lib%=%) -o $(NAME)
+	$(CC) $(FLAGS) $(MLX_FLAGS) $(DBG_FLAGS) -I $(INCS_DIR) $(SRCS) -L $(LIBS_DIR) -l $(LIBS:lib%=%) -o $(NAME)
 
 libs: $(LIBS)
 

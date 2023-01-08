@@ -3,43 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   error_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cipher <cipher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:36:20 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/07 23:02:18 by cipher           ###   ########.fr       */
+/*   Updated: 2023/01/08 04:31:03 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-bool	is_valid_extension(const char *file_name)
-{
-	return (
-		!ft_strncmp(".cub", file_name + (ft_strlen(file_name) - 4), 4)
-	);
-}
-
-bool	file_exists(const char *file_name)
-{
-	int		file_fd;
-	bool	file_exists;
-
-	file_fd = open(file_name, O_RDONLY);
-	file_exists = file_fd != -1;
-	if (file_exists)
-		close(file_fd);
-	return (file_exists);
-}
-
 void	check_elements(t_scene scene)
 {
-	if (!scene.north_texture)
+	if (scene.north_texture.content == NULL)
 		display_error("Error: the north texture is missing\n", 1);
-	else if (!scene.south_texture)
+	else if (scene.south_texture.content == NULL)
 		display_error("Error: the south texture is missing\n", 1);
-	else if (!scene.west_texture)
+	else if (scene.west_texture.content == NULL)
 		display_error("Error: the west texture is missing\n", 1);
-	else if (!scene.east_texture)
+	else if (scene.east_texture.content == NULL)
 		display_error("Error: the east texture is missing\n", 1);
 	else if (scene.floor_color < 0)
 		display_error("Error: the floor color is missing\n", 1);
@@ -47,18 +28,24 @@ void	check_elements(t_scene scene)
 		display_error("Error: the ceilling color is missing\n", 1);
 }
 
-bool	set_player_dir(t_scene *scene, char c)
+bool	set_player_dir(t_scene *scene, int i, int j)
 {
-	if (ft_indexof("NSEW", c) != -1 && scene->player_direction != UNSET)
+	if (ft_indexof("NSEW", scene->map[i][j]) != -1 && scene->player.direction != UNSET)
 		return (false);
-	if (c == 'N')
-		scene->player_direction = NORTH;
-	else if (c == 'S')
-		scene->player_direction = SOUTH;
-	else if (c == 'E')
-		scene->player_direction = EAST;
-	else if (c == 'W')
-		scene->player_direction = WEST;
+	if (scene->map[i][j] == 'N')
+		scene->player.direction = NORTH;
+	else if (scene->map[i][j] == 'S')
+		scene->player.direction = SOUTH;
+	else if (scene->map[i][j] == 'E')
+		scene->player.direction = EAST;
+	else if (scene->map[i][j] == 'W')
+		scene->player.direction = WEST;
+	if (ft_indexof("NSEW", scene->map[i][j]) != -1)
+	{
+		scene->player.x = j + 0.5;
+		scene->player.y = i + 0.5;
+		scene->map[i][j] = '0';
+	}
 	return (true);
 }
 
@@ -91,7 +78,7 @@ bool	check_scene_map(t_scene *scene)
 			{
 				if (ft_indexof(" 01NSEW", scene->map[i][j]) == -1)
 					return (!printf("Error: line #%ld contains non valid chars\n", i+1));
-				else if (!set_player_dir(scene, scene->map[i][j]))
+				else if (!set_player_dir(scene, i, j))
 					return (!printf("Error: line #%ld contains another player\n", i+1));
 				else if (scene->map[i][j] == '0' && !is_valid_surrounding(scene, i, j))
 					return (!printf("Error: line #%ld isn't an enclosed by a wall\n", i+1));
