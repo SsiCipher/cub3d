@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 09:26:28 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/09 10:33:57 by mmanouze         ###   ########.fr       */
+/*   Updated: 2023/01/09 13:43:31 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ typedef struct s_scene
 	size_t		map_width;
 	size_t		map_height;
 	char		**map;
-	char		itto;
 	t_player	player;
 }	t_scene;
 

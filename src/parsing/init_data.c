@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 08:34:53 by cipher            #+#    #+#             */
-/*   Updated: 2023/01/09 10:21:39 by mmanouze         ###   ########.fr       */
+/*   Updated: 2023/01/09 13:43:27 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 void	init_others(t_global *global)
 {
-	if (global->scene->itto == 'N')
+	if (global->scene->player.direction == NORTH)
 		global->pa = degree_to_radian(270);
-	if (global->scene->itto == 'S')
+	if (global->scene->player.direction == SOUTH)
 		global->pa = degree_to_radian(90);
-	if (global->scene->itto == 'E')
+	if (global->scene->player.direction == EAST)
 		global->pa = degree_to_radian(0);
-	if (global->scene->itto == 'W')
+	if (global->scene->player.direction == WEST)
 		global->pa = degree_to_radian(180);
 	global->key_a_d = -1;
 	global->key_r_l = -1;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:36:20 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/09 10:21:25 by mmanouze         ###   ########.fr       */
+/*   Updated: 2023/01/09 13:43:34 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ bool	set_player_dir(t_scene *scene, int i, int j)
 		scene->player.direction = WEST;
 	if (ft_indexof("NSEW", scene->map[i][j]) != -1)
 	{
-		scene->itto = scene->map[i][j];
 		scene->player.x = j + 0.5;
 		scene->player.y = i + 0.5;
 		scene->map[i][j] = '0';
