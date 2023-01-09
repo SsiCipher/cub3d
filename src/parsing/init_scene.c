@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:36:15 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/08 04:57:34 by yanab            ###   ########.fr       */
+/*   Updated: 2023/01/09 04:17:51 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,6 @@ t_scene	*init_scene(void)
 		exit(2);
 	game_scene->player.direction = UNSET;
 	return (game_scene);
-}
-
-void	free_scene(t_scene **game_scene)
-{
-	ft_free_arr(&((*game_scene)->map));
-	free(*game_scene);
-	*game_scene = NULL;
 }
 
 void	set_texture(t_global *global, char *value, char *direction)

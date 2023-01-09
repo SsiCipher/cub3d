@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:36:20 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/08 04:31:03 by yanab            ###   ########.fr       */
+/*   Updated: 2023/01/09 04:21:23 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	check_elements(t_scene scene)
 
 bool	set_player_dir(t_scene *scene, int i, int j)
 {
-	if (ft_indexof("NSEW", scene->map[i][j]) != -1 && scene->player.direction != UNSET)
+	if (ft_indexof("NSEW", scene->map[i][j]) != -1
+		&& scene->player.direction != UNSET)
 		return (false);
 	if (scene->map[i][j] == 'N')
 		scene->player.direction = NORTH;
@@ -70,18 +71,18 @@ bool	check_scene_map(t_scene *scene)
 	while (scene->map[++i])
 	{
 		if ((i == 0 || i == scene->map_height - 1) && !ft_every_is(scene->map[i], " 1"))
-			return (!printf("Error: line #%ld isn't a wall\n", i+1));
+			return (!printf("Error: line #%ld isn't a wall\n", i + 1));
 		else if (i != 0 && i != scene->map_height - 1)
 		{
 			j = -1;
 			while (scene->map[i][++j])
 			{
 				if (ft_indexof(" 01NSEW", scene->map[i][j]) == -1)
-					return (!printf("Error: line #%ld contains non valid chars\n", i+1));
+					return (!printf("Error: line #%ld contains non valid chars\n", i + 1));
 				else if (!set_player_dir(scene, i, j))
-					return (!printf("Error: line #%ld contains another player\n", i+1));
+					return (!printf("Error: line #%ld contains another player\n", i + 1));
 				else if (scene->map[i][j] == '0' && !is_valid_surrounding(scene, i, j))
-					return (!printf("Error: line #%ld isn't an enclosed by a wall\n", i+1));
+					return (!printf("Error: line #%ld isn't an enclosed by a wall\n", i + 1));
 			}
 		}
 	}
