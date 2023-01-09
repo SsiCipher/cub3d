@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:36:22 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/08 05:04:27 by yanab            ###   ########.fr       */
+/*   Updated: 2023/01/09 04:13:57 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,9 @@ int	main(int argc, char *argv[])
 		set_img_addr(&global->scene->west_texture);
 		set_img_addr(&global->scene->east_texture);
 		global->pa = degree_to_radian(180);
-
-		// ! DEBUG ONLY
-		// debug_print_scene(global->scene);
-
+		mlx_hook(global->mlx_win, E_KEY_DOWN, 0, init_keys, global);
+		mlx_hook(global->mlx_win, E_KEY_DOWN, 0, reset_keys, global);
+		mlx_loop_hook(global->mlx, loop_event, global);
 		mlx_loop(global->mlx);
 	}
 	free_scene(&global->scene);

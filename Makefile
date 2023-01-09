@@ -16,6 +16,13 @@ SRCS		=	$(SRCS_DIR)/parsing/debug.c \
 				$(SRCS_DIR)/parsing/utils.c \
 				$(SRCS_DIR)/raycasting/rc_utils.c \
 				$(SRCS_DIR)/raycasting/events.c \
+				$(SRCS_DIR)/raycasting/player_casting.c \
+				$(SRCS_DIR)/raycasting/player_movement.c \
+				$(SRCS_DIR)/raycasting/playes_rotation.c \
+				$(SRCS_DIR)/raycasting/direction.c \
+				$(SRCS_DIR)/raycasting/textures.c \
+				$(SRCS_DIR)/raycasting/paint_wall.c \
+				$(SRCS_DIR)/raycasting/draw3D.c \
 				$(SRCS_DIR)/wrappers.c \
 				$(SRCS_DIR)/main.c
 

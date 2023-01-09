@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 05:05:45 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/08 05:05:48 by yanab            ###   ########.fr       */
+/*   Updated: 2023/01/09 02:44:29 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,16 @@
 # define M_CLK_M 2
 # define M_SCR_U 4
 # define M_SCR_D 5
+
+/*
+** Events & masks
+*/
+
+# define E_KEY_DOWN 2
+# define E_KEY_UP 3
+# define E_MOUSE_DOWN 4
+# define E_MOUSE_UP 5
+# define E_MOUSE_MOVE 6
+# define E_DESTROY 17
 
 #endif

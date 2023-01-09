@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 09:26:28 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/08 05:07:46 by yanab            ###   ########.fr       */
+/*   Updated: 2023/01/09 04:12:55 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@
 #  include "keycodes_linux.h"
 # endif
 
+# define SPEED 0.2
+# define SIGHT_SPEED 0.2
+# define SCALE 0.2
+# define DIMENSION 1000
 # define W_WIDTH 12*140
 # define W_HEIGHT 8*140
 # define W_TITLE "Tasndo9t_3D"
@@ -79,6 +83,23 @@ typedef struct s_global
 	t_img	mlx_img;
 	t_scene	*scene;
 	double	pa;
+	double	Xhitwall;
+	double	Yhitwall;
+	int		key_A_D;
+	int		key_W_S;
+	int		key_R_L;
+	int		key_U_D;
+	int		horizontal;
+	int		vertical;
+	char	direction;
+	int		index;
+	double	P_W_D;
+	double	P_W_H;
+	int		top_pixel;
+	int		bottom_pixel;
+	int		pos;
+	int		x_text;
+	int		y_text;
 }	t_global;
 
 // src/init_scene.c
@@ -103,11 +124,56 @@ bool	check_scene_map(t_scene *scene);
 
 // src/wrappers.c
 void	set_img_addr(t_img *image);
+void	set_img_pixel(t_img *mlx_img, int x, int y, int color);
 
 // src/debug.c
 void	debug_print_scene(t_scene *scene);
 
 // src/rc_utils.c
 double	degree_to_radian(int degree);
+
+// src/raycasting/events.c
+int		loop_event(t_global *var);
+int		reset_keys(int key, t_global *var);
+int		init_keys(int key, t_global *var);
+int		key_manager(t_global *var);
+
+// src/raycasting/player_casting.c
+void	close_wall(t_global *var, double fov, int i);
+void	far_wall(t_global *var, double fov, int i);
+void	ray_projection(double fov, t_global *var, int i);
+double	normalize_angle(double angle);
+void	player_view(t_global *var);
+
+// src/raycasting/player_movement.c
+void	ft_right(t_global *var);
+void	ft_left(t_global *var);
+void	ft_down(t_global *var);
+void	ft_up(t_global *var);
+
+// src/raycasting/playes_rotation.c
+void	ft_turn_right(t_global *var);
+void	ft_turn_left(t_global *var);
+
+// src/raycasting/direction.c
+void	direction_option(t_global *var, double wall_x, double wall_y, double fov);
+void	horizontal_or_vertical(t_global *var, double wall_x, double wall_y, double fov);
+void	specify_direction(t_global *var, double wall_y, double wall_x);
+
+// src/raycasting/draw3D.c
+void	draw_3d(t_global *var, int abs, int i, double fov);
+void	calcul_indexes(t_global *var, int abs);
+void	paint_sky(t_global *var, int i);
+void	paint_walls(t_global *var, int i, double fov);
+
+// src/raycasting/textures.c
+void	wall_pixels(t_global *var, double fov);
+void	x_wall_text(t_global *var, double fov, int line);
+
+// src/raycasting/textures.c
+void	north_wall(t_global *var);
+void	south_wall(t_global *var);
+void	west_wall(t_global *var);
+void	east_wall(t_global *var);
 
 #endif
