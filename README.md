@@ -22,6 +22,7 @@ A minimal game to start with game dev & computer graphics
 ### map cases:
 
 - [x] no map
+- [x] no player
 - [x] more then one player
 - [x] invalid chars
 - [x] not surronded by walls

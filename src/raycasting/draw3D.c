@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 19:52:15 by mmanouze          #+#    #+#             */
-/*   Updated: 2023/01/09 04:12:59 by yanab            ###   ########.fr       */
+/*   Updated: 2023/01/09 05:02:27 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	draw_3d(t_global *var, int abs, int i, double fov)
 	paint_walls(var, i, fov);
 	while (var->index < W_HEIGHT)
 	{
-		set_img_pixel(&var->mlx_img, i, var->index, var->scene->ceilling_color);
+		set_img_pixel(&var->mlx_img, i, var->index, var->scene->floor_color);
 		var->index++;
 	}
 }

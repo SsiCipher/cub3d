@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 11:17:39 by mmanouze          #+#    #+#             */
-/*   Updated: 2023/01/09 04:10:56 by yanab            ###   ########.fr       */
+/*   Updated: 2023/01/09 05:21:08 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,6 @@ int	loop_event(t_global *var)
 	return (0);
 }
 
-int	reset_keys(int key, t_global *var)
-{
-	if (key == K_A || key == K_D)
-		var->key_A_D = -1;
-	if (key == K_S || key == K_W)
-		var->key_W_S = -1;
-	if (key == K_AR_L || key == K_AR_R)
-		var->key_R_L = -1;
-	if (key == K_AR_U || key == K_AR_D)
-		var->key_U_D = -1;
-	return (0);
-}
-
 int	init_keys(int key, t_global *var)
 {
 	if (key == K_A || key == K_D)
@@ -43,8 +30,21 @@ int	init_keys(int key, t_global *var)
 		var->key_R_L = key;
 	if (key == K_AR_U || key == K_AR_D)
 		var->key_U_D = key;
-	else if (key == 53)
+	if (key == K_ESC)
 		exit(0);
+	return (0);
+}
+
+int	reset_keys(int key, t_global *var)
+{
+	if (key == K_A || key == K_D)
+		var->key_A_D = -1;
+	if (key == K_S || key == K_W)
+		var->key_W_S = -1;
+	if (key == K_AR_L || key == K_AR_R)
+		var->key_R_L = -1;
+	if (key == K_AR_U || key == K_AR_D)
+		var->key_U_D = -1;
 	return (0);
 }
 

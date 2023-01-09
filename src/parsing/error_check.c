@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:36:20 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/09 04:21:23 by yanab            ###   ########.fr       */
+/*   Updated: 2023/01/09 05:20:20 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,7 @@ bool	check_scene_map(t_scene *scene)
 			}
 		}
 	}
+	if (scene->player.direction == UNSET)
+		return (!printf("Error: the player is missing\n"));
 	return (true);
 }

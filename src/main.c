@@ -6,7 +6,7 @@
 /*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:36:22 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/09 04:21:28 by yanab            ###   ########.fr       */
+/*   Updated: 2023/01/09 05:20:12 by yanab            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,13 @@ void	free_scene(t_scene **game_scene)
 	*game_scene = NULL;
 }
 
+int	quit_game(void *params)
+{
+	(void)params;
+	exit(0);
+	return (0);
+}
+
 int	main(int argc, char *argv[])
 {
 	t_global	*global;
@@ -72,7 +79,8 @@ int	main(int argc, char *argv[])
 		set_img_addr(&global->scene->east_texture);
 		global->pa = degree_to_radian(180);
 		mlx_hook(global->mlx_win, E_KEY_DOWN, 0, init_keys, global);
-		mlx_hook(global->mlx_win, E_KEY_DOWN, 0, reset_keys, global);
+		mlx_hook(global->mlx_win, E_KEY_UP, 0, reset_keys, global);
+		mlx_hook(global->mlx_win, E_DESTROY, 0, quit_game, global);
 		mlx_loop_hook(global->mlx, loop_event, global);
 		mlx_loop(global->mlx);
 	}
