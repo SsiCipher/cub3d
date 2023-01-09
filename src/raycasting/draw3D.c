@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw3D.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cipher <cipher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 19:52:15 by mmanouze          #+#    #+#             */
-/*   Updated: 2023/01/09 05:02:27 by yanab            ###   ########.fr       */
+/*   Updated: 2023/01/09 08:13:23 by cipher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void	calcul_indexes(t_global *var, int abs)
 {
-	var->P_W_D = (W_WIDTH / 2) / tan(degree_to_radian(30));
-	var->P_W_H = ((DIMENSION) / (abs * SCALE)) * (var->P_W_D * SCALE);
-	var->top_pixel = (W_HEIGHT / 2) - ((int)var->P_W_H / 2);
+	var->p_w_d = (W_WIDTH / 2) / tan(degree_to_radian(30));
+	var->p_w_h = ((DIMENSION) / (abs * SCALE)) * (var->p_w_d * SCALE);
+	var->top_pixel = (W_HEIGHT / 2) - ((int)var->p_w_h / 2);
 	if (var->top_pixel < 0)
 		var->top_pixel = 0;
-	var->bottom_pixel = (W_HEIGHT / 2) + ((int)var->P_W_H / 2);
+	var->bottom_pixel = (W_HEIGHT / 2) + ((int)var->p_w_h / 2);
 	if (var->bottom_pixel > W_HEIGHT)
 		var->bottom_pixel = W_HEIGHT;
 }

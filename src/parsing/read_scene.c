@@ -1,38 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_scene.c                                       :+:      :+:    :+:   */
+/*   read_scene.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cipher <cipher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:36:15 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/09 04:17:51 by yanab            ###   ########.fr       */
+/*   Updated: 2023/01/09 08:46:00 by cipher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-t_scene	*init_scene(void)
-{
-	t_scene	*game_scene;
-
-	game_scene = malloc(sizeof(t_scene));
-	if (!game_scene)
-		exit(2);
-	game_scene->north_texture.content = NULL;
-	game_scene->south_texture.content = NULL;
-	game_scene->west_texture.content = NULL;
-	game_scene->east_texture.content = NULL;
-	game_scene->floor_color = -1;
-	game_scene->ceilling_color = -1;
-	game_scene->map_width = 0;
-	game_scene->map_height = 0;
-	game_scene->map = ft_calloc(1, sizeof(char *));
-	if (!game_scene->map)
-		exit(2);
-	game_scene->player.direction = UNSET;
-	return (game_scene);
-}
 
 void	set_texture(t_global *global, char *value, char *direction)
 {
@@ -56,10 +34,15 @@ void	set_texture(t_global *global, char *value, char *direction)
 	free(texture_path);
 }
 
-void	set_color(int *color, char *value, char *direction)
+void	set_color(t_global *global, char *value, char *direction)
 {
+	int		*color;
 	char	*color_str;
 
+	if (direction[0] == 'f')
+		color = &global->scene->floor_color;
+	else if (direction[0] == 'c')
+		color = &global->scene->ceilling_color;
 	color_str = ft_strtrim(value + skip_spaces(value, 1), "\n");
 	if (*color >= 0)
 		display_error(
@@ -72,6 +55,25 @@ void	set_color(int *color, char *value, char *direction)
 		display_error(
 			ft_multijoin(3, "Error: ", direction, " color is invalid\n"), 1);
 	free(color_str);
+}
+
+bool	set_scene_elements(t_global *global, char *line)
+{
+	if (is_valid_element("NO", line))
+		set_texture(global, line, "north");
+	else if (is_valid_element("SO", line))
+		set_texture(global, line, "south");
+	else if (is_valid_element("WE", line))
+		set_texture(global, line, "west");
+	else if (is_valid_element("EA", line))
+		set_texture(global, line, "east");
+	else if (is_valid_element("F", line))
+		set_color(global, line, "floor");
+	else if (is_valid_element("C", line))
+		set_color(global, line, "ceilling");
+	else
+		return (false);
+	return (true);
 }
 
 void	read_scene_map(t_scene *scene, int scene_fd, char *line)
@@ -103,18 +105,12 @@ void	read_scene_file(t_global *global, int scene_file_fd)
 	while (line)
 	{
 		spaces = skip_spaces(line, 0);
-		if (is_valid_element("NO", line + spaces))
-			set_texture(global, line + spaces, "north");
-		else if (is_valid_element("SO", line + spaces))
-			set_texture(global, line + spaces, "south");
-		else if (is_valid_element("WE", line + spaces))
-			set_texture(global, line + spaces, "west");
-		else if (is_valid_element("EA", line + spaces))
-			set_texture(global, line + spaces, "east");
-		else if (is_valid_element("F", line + spaces))
-			set_color(&(global->scene->floor_color), line + spaces, "floor");
-		else if (is_valid_element("C", line + spaces))
-			set_color(&(global->scene->ceilling_color), line + spaces, "ceilling");
+		if (set_scene_elements(global, line + spaces))
+		{
+			free(line);
+			line = ft_getline(scene_file_fd);
+			continue ;
+		}
 		else if (line[spaces] == '1')
 			read_scene_map(global->scene, scene_file_fd, line);
 		else if (line[0] != '\n' || ft_isempty(line))

@@ -3,26 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   direction.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yanab <yanab@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cipher <cipher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 19:54:16 by mmanouze          #+#    #+#             */
-/*   Updated: 2023/01/09 04:10:53 by yanab            ###   ########.fr       */
+/*   Updated: 2023/01/09 08:56:49 by cipher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	direction_option(t_global *var, double wall_x, double wall_y, double fov)
+void	direction_option(t_global *var,
+		double wall_x, double wall_y, double fov)
 {
 	horizontal_or_vertical(var, wall_x, wall_y, fov);
 	specify_direction(var, wall_y, wall_x);
 }
 
-void	horizontal_or_vertical(t_global *var, double wall_x, double wall_y, double fov)
+void	horizontal_or_vertical(t_global *var,
+		double wall_x, double wall_y, double fov)
 {
 	var->horizontal = 0;
 	var->vertical = 0;
-	if (var->scene->map[(int)(wall_y + sin(fov)) / DIMENSION][(int)(wall_x - cos(fov)) / DIMENSION] == '1')
+	if (var->scene->map[(int)(wall_y + sin(fov)) / DIMENSION]
+			[(int)(wall_x - cos(fov)) / DIMENSION] == '1')
 		var->horizontal = 1;
 	else
 		var->vertical = 1;
