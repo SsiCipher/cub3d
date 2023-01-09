@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cipher <cipher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:36:20 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/09 08:34:31 by cipher           ###   ########.fr       */
+/*   Updated: 2023/01/09 10:21:25 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ bool	set_player_dir(t_scene *scene, int i, int j)
 		scene->player.direction = WEST;
 	if (ft_indexof("NSEW", scene->map[i][j]) != -1)
 	{
+		scene->itto = scene->map[i][j];
 		scene->player.x = j + 0.5;
 		scene->player.y = i + 0.5;
 		scene->map[i][j] = '0';
@@ -64,9 +65,10 @@ bool	is_valid_map_line(t_scene *scene, char *line, int i)
 {
 	int	j;
 
-	if ((i == 0 || i == scene->map_height - 1) && !ft_every_is(line, " 1"))
-		return (!printf("Error: line #%ld isn't a wall\n", i + 1));
-	else if (i != 0 && i != scene->map_height - 1)
+	if ((i == 0 || (size_t)i == scene->map_height - 1)
+		&& !ft_every_is(line, " 1"))
+		return (!printf("Error: line #%d isn't a wall\n", i + 1));
+	else if (i != 0 && (size_t)i != scene->map_height - 1)
 	{
 		j = -1;
 		while (line[++j])
@@ -85,7 +87,6 @@ bool	is_valid_map_line(t_scene *scene, char *line, int i)
 bool	check_scene_map(t_scene *scene)
 {
 	size_t	i;
-	size_t	j;
 
 	if (!scene->map[0])
 		return (!printf("Error: the scene file doesn't contain a map\n"));

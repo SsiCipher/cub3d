@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_scene.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cipher <cipher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:36:15 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/09 08:46:00 by cipher           ###   ########.fr       */
+/*   Updated: 2023/01/09 08:22:08 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	set_color(t_global *global, char *value, char *direction)
 	int		*color;
 	char	*color_str;
 
+	color = NULL;
 	if (direction[0] == 'f')
 		color = &global->scene->floor_color;
 	else if (direction[0] == 'c')

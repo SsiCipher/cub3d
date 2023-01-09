@@ -12,7 +12,7 @@ LIBS		= 	libft
 
 SRCS		=	$(SRCS_DIR)/parsing/init_data.c \
 				$(SRCS_DIR)/parsing/read_scene.c \
-				$(SRCS_DIR)/parsing/read_scene.c \
+				$(SRCS_DIR)/parsing/error_check.c \
 				$(SRCS_DIR)/parsing/utils.c \
 				$(SRCS_DIR)/raycasting/rc_utils.c \
 				$(SRCS_DIR)/raycasting/events.c \

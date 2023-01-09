@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cipher <cipher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 09:26:28 by yanab             #+#    #+#             */
-/*   Updated: 2023/01/09 09:05:37 by cipher           ###   ########.fr       */
+/*   Updated: 2023/01/09 10:33:57 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 #  include "keycodes_linux.h"
 # endif
 
-# define SPEED 0.2
-# define SIGHT_SPEED 0.2
+# define SPEED 0.1
+# define SIGHT_SPEED 0.4
 # define SCALE 0.2
 # define DIMENSION 1000
 # define W_WIDTH 1280
@@ -73,6 +73,7 @@ typedef struct s_scene
 	size_t		map_width;
 	size_t		map_height;
 	char		**map;
+	char		itto;
 	t_player	player;
 }	t_scene;
 
@@ -183,5 +184,7 @@ void	north_wall(t_global *var);
 void	south_wall(t_global *var);
 void	west_wall(t_global *var);
 void	east_wall(t_global *var);
+
+int		far_wall_condition(t_global *var, double fov, int speed, double yf);
 
 #endif

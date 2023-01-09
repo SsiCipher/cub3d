@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_casting.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cipher <cipher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 11:09:27 by mmanouze          #+#    #+#             */
-/*   Updated: 2023/01/09 08:57:34 by cipher           ###   ########.fr       */
+/*   Updated: 2023/01/09 10:29:10 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	close_wall(t_global *var, double fov, int i)
 void	far_wall(t_global *var, double fov, int i)
 {
 	double	yf;
-	double	yc;
 	int		speed;
 
 	speed = 30;
@@ -53,19 +52,7 @@ void	far_wall(t_global *var, double fov, int i)
 		var->xhitwall += cos(fov) * speed;
 		var->yhitwall += sin(fov) * speed;
 		yf = sin(fov) * speed;
-		yc = sin(fov);
-		if (
-			var->scene->map[(int)(var->yhitwall) / DIMENSION]
-			[(int)(var->xhitwall) / DIMENSION] == '1'
-			|| var->scene->map[(int)(var->yhitwall + yc + yf) / DIMENSION]
-			[(int)(var->xhitwall - cos(fov) + (cos(fov) * speed)) / DIMENSION] == '1'
-			|| var->scene->map[(int)(var->yhitwall - yc - yf) / DIMENSION]
-			[(int)(var->xhitwall + cos(fov) + (cos(fov) * speed)) / DIMENSION] == '1'
-			|| var->scene->map[(int)(var->yhitwall - yc + yf) / DIMENSION]
-			[(int)(var->xhitwall + cos(fov) - (cos(fov) * speed)) / DIMENSION] == '1'
-			||var->scene->map[(int)(var->yhitwall + yc - yf) / DIMENSION]
-			[(int)(var->xhitwall - cos(fov) - (cos(fov) * speed)) / DIMENSION] == '1'
-		)
+		if (far_wall_condition(var, fov, speed, yf))
 		{
 			close_wall(var, fov, i);
 			return ;

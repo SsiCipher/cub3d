@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cipher <cipher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmanouze <mmanouze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 08:34:53 by cipher            #+#    #+#             */
-/*   Updated: 2023/01/09 09:05:08 by cipher           ###   ########.fr       */
+/*   Updated: 2023/01/09 10:21:39 by mmanouze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h";
+#include "cub3d.h"
+
+void	init_others(t_global *global)
+{
+	if (global->scene->itto == 'N')
+		global->pa = degree_to_radian(270);
+	if (global->scene->itto == 'S')
+		global->pa = degree_to_radian(90);
+	if (global->scene->itto == 'E')
+		global->pa = degree_to_radian(0);
+	if (global->scene->itto == 'W')
+		global->pa = degree_to_radian(180);
+	global->key_a_d = -1;
+	global->key_r_l = -1;
+	global->key_u_d = -1;
+	global->key_w_s = -1;
+}
 
 t_scene	*init_scene(void)
 {
@@ -72,7 +88,7 @@ void	init_global(t_global *global, char *scene_file)
 		set_img_addr(&global->scene->south_texture);
 		set_img_addr(&global->scene->west_texture);
 		set_img_addr(&global->scene->east_texture);
-		global->pa = degree_to_radian(180);
+		init_others(global);
 		mlx_hook(global->mlx_win, E_KEY_DOWN, 0, init_keys, global);
 		mlx_hook(global->mlx_win, E_KEY_UP, 0, reset_keys, global);
 		mlx_hook(global->mlx_win, E_DESTROY, 0, quit_game, global);
