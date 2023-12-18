@@ -1,3 +1,3 @@
 # Cub3D
 
-A basic remake of the Wolfenstein game to learn about raycasting in computer graphics
+A remake of the famous Wolfenstein game to learn about ray-casting concepts in computer graphics.
